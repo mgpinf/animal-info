@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}animal-info{% endblock %}
+{% block content %}
+
+<style>
+    h5 {
+        font-weight: bold;
+        color: var(--nord6);
+    }
+
+    h6 {
+        font-weight: bold;
+        color: var(--nord7);
+    }
+
+    label {
+        font-weight: bold;
+        color: var(--nord8);
+    }
+
+    small {
+        font-weight: bold;
+        color: var(--nord9);
+    }
+
+    hr {
+        color: var(--nord4);
+    }
+
+    button {
+        background-color: var(--nord8);
+    }
+</style>
+
+<div class="my-md-3 container">
+    <div class="row">
+        <div class="container col-12">
+            <div>
+                <form action="#" method="post">
+                    <div id="input-group-1" role="group" class="form-group">
+                        <label id="input-group-1__BV_label_" for="input-1" class="d-block">
+                            <h5>Category</h5>
+                        </label>
+                        <div>
+                            <input id="input-number" , name="name_input_entity" type="text" placeholder="Entity name"
+                                required="required" aria-required="true" class="form-control" style="
+                                border-color: var(--nord0);
+                                background-color: var(--nord5);
+                                color: var(--nord3);
+                                " />
+                            <small tabindex="-1" id="input-group-1__BV_description_" class="form-text text-muted">
+                                Only accepts the following categories
+                            </small>
+                        </div>
+                        <br />
+                    </div>
+                    <hr>
+                    <div id="input-group-1" role="group" class="form-group">
+                        <label id="input-group-1__BV_label_" for="input-1" class="d-block">
+                            <h5>Login as:</h5>
+                        </label>
+                        <br />
+                        <script type="text/javascript">
+                            function divDisplay(vehicle1) {
+                                var divContent = document.getElementById("microsoft-sign-in-credentials-zone")
+                                divContent.style.display = vehicle1.checked ? "block" : "none";
+                            }
+                        </script>
+                        <form>
+                            <input type="radio" id="truecaller-lookup" name="name_login_type" value="checked"
+                                onclick="divDisplay(this)" />
+                            <label for="vehicle1">
+                                <h6>User</h6>
+                            </label>
+
+                            <br />
+                            <br />
+                            <input type="radio" id="truecaller-lookup" name="name_login_type" value="checked"
+                                onclick="divDisplay(this)" />
+                            <label for="vehicle1">
+                                <h6>Shop Owner</h6>
+                            </label>
+
+                            <br />
+                            <br />
+                            <input type="radio" id="phndir-lookup" name="name_login_type" value="checked" />
+                            <label for="vehicle2">
+                                <h6>Doctor</h6>
+                            </label><br /><br />
+                            <button type="submit" class="btn m-1 btn-dark btn-sm" value="phone_no" style="
+                                font-weight: bold;
+                                background-color: var(--nord7);
+                                border-color: var(--nord7);
+                                color: var(--nord1);
+                                " onmouseover="change_color(this)" onmouseout="restore_color(this)">
+                                Login
+                            </button>
+                            <script>
+                                let nord0 = "#2E3440";
+                                let nord1 = "#3B4252";
+                                let nord8 = "#88C0D0";
+                                let merc0 = "#212529";
+                                let merc1 = "#009688";
+                                let nord7 = "#8FBCBB";
+                                function change_color(current_element) {
+                                    current_element.style["background-color"] = nord1
+                                    current_element.style["border-color"] = nord1
+                                    current_element.style["color"] = nord7
+                                }
+                                function restore_color(current_element) {
+                                    current_element.style["background-color"] = nord7
+                                    current_element.style["border-color"] = nord7
+                                    current_element.style["color"] = nord1
+                                }
+                            </script>
+                        </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
