@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}animal-info{% endblock %}
+{% block content %}
+
+<style>
+    h1 {
+        text-align: center;
+        color: var(--nord14);
+        background: -webkit-linear-gradient(var(--nord14), var(--nord7));
+        background-clip: inherit;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+    }
+
+    h4 {
+        font-weight: bold;
+        color: var(--nord6);
+        text-align: center;
+    }
+
+    h6 {
+        font-weight: bold;
+        color: var(--nord7);
+    }
+
+    label {
+        font-weight: bold;
+        color: var(--nord8);
+    }
+
+    small {
+        font-weight: bold;
+        color: var(--nord9);
+    }
+
+
+    hr {
+        color: var(--nord0);
+    }
+
+    button {
+        background-color: var(--nord8);
+    }
+
+    #heading {
+        background: linear-gradient(var(--nord0), var(--merc0) 60%, var(--nord0))
+    }
+
+    .center {
+        margin-left: 200px;
+        margin-right: 200px;
+        position: relative;
+    }
+
+    .table_style {
+        border: 2px solid var(--nord0);
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        width: 900px;
+        height: 40px;
+    }
+
+    .tr_style {
+        border: 2px solid var(--nord0);
+        border-color: var(--nord0);
+        background-color: var(--nord9);
+        width: 900px;
+        height: 40px;
+    }
+
+    .td_style_1 {
+        border: 3px solid var(--nord0);
+        border-color: var(--nord0);
+        background-color: var(--nord8);
+        width: 350px;
+        height: 40px;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .td_style_2 {
+        border: 3px solid var(--nord0);
+        border-color: var(--nord0);
+        background-color: var(--nord14);
+        color: var(--nord1);
+        text-align: center;
+        height: 40px;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
+<div id="heading">
+    <h1>GENERAL PUBLIC SESSION</h1>
+</div>
+
+<div class="my-md-3 container">
+    <div class="row">
+        <div class="container col-12">
+            <div>
+                <hr>
+                <div class="center">
+                    <label id="input-group-1__BV_label_" for="input-1" class="d-block">
+                        <h4>RESULTS</h4>
+                    </label>
+                    <br />
+                    <table>
+                        <tr>
+                            {% for heading in colnames %}
+                            <td class="td_style_2">
+                                {{heading[15:].upper()}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% for attributes in results %}
+                        <tr>
+                            {% for sub_attributes in attributes %}
+                            <td class="td_style_1">
+                                {{sub_attributes}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <br />
+                    <form action="#" method="post">
+                        <div class="text-center">
+                            <button type="submit" class="btn m-1 btn-dark btn-sm" style="
+                                font-weight: bold;
+                                background-color: var(--nord7);
+                                border-color: var(--nord7);
+                                color: var(--nord1);
+                                " onmouseover="change_color(this)" onmouseout="restore_color(this)">
+                                Logout
+                            </button>
+                        </div>
+                    </form>
+                    <script>
+                        let nord0 = "#2E3440";
+                        let nord1 = "#3B4252";
+                        let nord8 = "#88C0D0";
+                        let merc0 = "#212529";
+                        let merc1 = "#009688";
+                        let nord7 = "#8FBCBB";
+                        function change_color(current_element) {
+                            current_element.style["background-color"] = nord1
+                            current_element.style["border-color"] = nord1
+                            current_element.style["color"] = nord7
+                        }
+                        function restore_color(current_element) {
+                            current_element.style["background-color"] = nord7
+                            current_element.style["border-color"] = nord7
+                            current_element.style["color"] = nord1
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

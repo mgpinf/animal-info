@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}animal-info{% endblock %}
+{% block content %}
+
+<style>
+    h1 {
+        text-align: center;
+        color: var(--nord14);
+        background: -webkit-linear-gradient(var(--nord14), var(--nord7));
+        background-clip: inherit;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+    }
+
+    h4 {
+        font-weight: bold;
+        color: var(--nord6);
+    }
+
+    h6 {
+        font-weight: bold;
+        color: var(--nord7);
+    }
+
+    label {
+        font-weight: bold;
+        color: var(--nord8);
+    }
+
+    small {
+        font-weight: bold;
+        color: var(--nord9);
+    }
+
+
+    hr {
+        color: var(--nord0);
+    }
+
+    button {
+        background-color: var(--nord8);
+    }
+
+    #heading {
+        background: linear-gradient(var(--nord0), var(--merc0) 60%, var(--nord0))
+    }
+
+    .center {
+        margin-left: 200px;
+        margin-right: 200px;
+        position: relative;
+    }
+</style>
+
+<div id="heading">
+    <h1>ANIMAL SHELTER</h1>
+</div>
+
+<div class="my-md-3 container">
+    <div class="row">
+        <div class="container col-12">
+            <div>
+                <hr>
+                <div class="center">
+                    <label id="input-group-1__BV_label_" for="input-1" class="d-block">
+                        <h4>INSERT DETAILS:</h4>
+                    </label>
+                    <br />
+                    <form action="" method="post">
+                        <div id="input-group-1" role="group" class="form-group">
+                            <div class="form-group">
+                                <label>Certificate no</label>
+                                <input type="text" class="form-control" placeholder="Enter certificate no."
+                                    name="certificateNo">
+                                <br />
+                            </div>
+                            <div class="form-group">
+                                <label>No of pets</label>
+                                <input name="noOfPets" type="number" class="form-control"
+                                    placeholder="Enter no. of pets">
+                                <br />
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" class="form-control" placeholder="Enter address" name="address">
+                                <br />
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" class="form-control" placeholder="Enter phone no." name="phone">
+                                <br />
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" placeholder="Enter name" name="name">
+                                <br />
+                            </div>
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" class="form-control" placeholder="Enter city" name="city">
+                                <br />
+                            </div>
+                            <button type="submit" name="proceed-submit" class="btn m-1 btn-dark btn-sm"
+                                value="login-flag" style="
+                                font-weight: bold;
+                                background-color: var(--nord7);
+                                border-color: var(--nord7);
+                                color: var(--nord1);
+                                " onmouseover="change_color(this)" onmouseout="restore_color(this)">
+                                Proceed
+                            </button>
+                            <script>
+                                let nord0 = "#2E3440";
+                                let nord1 = "#3B4252";
+                                let nord8 = "#88C0D0";
+                                let merc0 = "#212529";
+                                let merc1 = "#009688";
+                                let nord7 = "#8FBCBB";
+                                function change_color(current_element) {
+                                    current_element.style["background-color"] = nord1
+                                    current_element.style["border-color"] = nord1
+                                    current_element.style["color"] = nord7
+                                }
+                                function restore_color(current_element) {
+                                    current_element.style["background-color"] = nord7
+                                    current_element.style["border-color"] = nord7
+                                    current_element.style["color"] = nord1
+                                }
+                            </script>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
