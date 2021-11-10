@@ -48,8 +48,8 @@
     }
 
     .center {
-        margin-left: 200px;
-        margin-right: 200px;
+        margin-left: 0px;
+        margin-right: 0px;
         position: relative;
     }
 
@@ -110,7 +110,7 @@
                         <tr>
                             {% for heading in colnames %}
                             <td class="td_style_2">
-                                {{heading[15:].upper()}}
+                                {{heading[:].upper()}}
                             </td>
                             {% endfor %}
                         </tr>

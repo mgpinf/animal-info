@@ -57,12 +57,12 @@ def general_public_login_select():
         )
         cur = connection.cursor()
 
-        select_statement = f"SELECT * FROM GENERAL_PUBLIC"
+        select_statement = f"SELECT * FROM ANIMAL WHERE animal_adopted = false"
         cur.execute(select_statement)
 
         results = cur.fetchall()
 
-        cur.execute("Select * FROM GENERAL_PUBLIC LIMIT 0")
+        cur.execute("SELECT * FROM ANIMAL WHERE animal_adopted = false LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -138,12 +138,14 @@ def doctor_login_animal_disease_history_select():
         )
         cur = connection.cursor()
 
-        select_statement = f"SELECT * FROM ANIMAL_ANIMAL_DISEASE_HISTORY"
+        select_statement = f"SELECT  animal_animal_disease_history_animal_disease_name, animal_animal_disease_history_animal_id, animal_animal_disease_history_animal_disease_no_of_months FROM ANIMAL_ANIMAL_DISEASE_HISTORY"
         cur.execute(select_statement)
 
         results = cur.fetchall()
 
-        cur.execute("Select * FROM ANIMAL_ANIMAL_DISEASE_HISTORY LIMIT 0")
+        cur.execute(
+            "Select animal_animal_disease_history_animal_disease_name, animal_animal_disease_history_animal_id, animal_animal_disease_history_animal_disease_no_of_months FROM ANIMAL_ANIMAL_DISEASE_HISTORY LIMIT 0"
+        )
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -294,12 +296,12 @@ def doctor_login_animal_type_care_select():
         )
         cur = connection.cursor()
 
-        select_statement = f"SELECT * FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE"
+        select_statement = f"Select animal_type_animal_type_care_animal_type_care, animal_type_animal_type_care_animal_type_breed FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE"
         cur.execute(select_statement)
 
         results = cur.fetchall()
 
-        cur.execute("Select * FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE LIMIT 0")
+        cur.execute("Select animal_type_animal_type_care_animal_type_care, animal_type_animal_type_care_animal_type_breed FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -384,12 +386,14 @@ def doctor_login_query_answers_select():
         )
         cur = connection.cursor()
 
-        select_statement = f"SELECT * FROM QUERIES_QUERY_ANSWER"
+        select_statement = f"SELECT queries_query_question, queries_query_answer_query_answer, queries_query_answer_query_answered_by FROM QUERIES, QUERIES_QUERY_ANSWER WHERE  queries_query_id = queries_query_answer_query_id"
         cur.execute(select_statement)
 
         results = cur.fetchall()
 
-        cur.execute("Select * FROM QUERIES_QUERY_ANSWER LIMIT 0")
+        cur.execute(
+            "SELECT queries_query_question, queries_query_answer_query_answer, queries_query_answer_query_answered_by FROM QUERIES, QUERIES_QUERY_ANSWER WHERE  queries_query_id = queries_query_answer_query_id LIMIT 0"
+        )
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
