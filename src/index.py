@@ -36,8 +36,6 @@ def login():
 @app.route("/login/general-public", methods=["POST", "GET"])
 def general_public_login():
     if request.method == "POST":
-        aadhar = "general_public_" + request.form.get("aadhar")
-        password = request.form.get("password")
         aadhar = "postgres"
         password = "2020"
         session["general_public_login_credential"] = (aadhar, password)
@@ -46,7 +44,7 @@ def general_public_login():
         return render_template("login/general_public.html")
 
 
-@app.route("/login/general-public/select/session", methods=["POST", "GET"])
+@app.route("/login/general-public/select", methods=["POST", "GET"])
 def general_public_login_select():
     if request.method == "POST":
         return redirect(url_for("home"))
@@ -62,7 +60,7 @@ def general_public_login_select():
 
         results = cur.fetchall()
 
-        cur.execute("SELECT * FROM ANIMAL WHERE animal_adopted = false LIMIT 0")
+        cur.execute(f"{select_statement} LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -78,8 +76,6 @@ def general_public_login_select():
 @app.route("/login/doctor", methods=["POST", "GET"])
 def doctor_login():
     if request.method == "POST":
-        certificate_no = "doctor_" + request.form.get("certificateNo")
-        password = request.form.get("password")
         certificate_no = "postgres"
         password = "2020"
         session["doctor_login_credential"] = (certificate_no, password)
@@ -92,7 +88,10 @@ def doctor_login():
 def doctor_login_table():
     if request.method == "POST":
         session["doctor_login_table"] = request.form["name"]
-        return redirect(url_for("doctor_login_operation"))
+        if session["doctor_login_table"] == "animalDiseaseHistory":
+            return redirect(url_for("doctor_login_animal_disease_history_select"))
+        else:
+            return redirect(url_for("doctor_login_operation"))
     else:
         return render_template("login/doctor/table.html")
 
@@ -102,14 +101,7 @@ def doctor_login_operation():
     if request.method == "POST":
         table = session["doctor_login_table"]
         operation = request.form["name"]
-        if table == "animalDiseaseHistory":
-            if operation == "select":
-                return redirect(url_for("doctor_login_animal_disease_history_select"))
-            elif operation == "update":
-                return redirect(url_for("doctor_login_animal_disease_history_update"))
-            elif operation == "insert":
-                return redirect(url_for("doctor_login_animal_disease_history_insert"))
-        elif table == "animalTypeCare":
+        if table == "animalTypeCare":
             if operation == "select":
                 return redirect(url_for("doctor_login_animal_type_care_select"))
             elif operation == "update":
@@ -143,9 +135,7 @@ def doctor_login_animal_disease_history_select():
 
         results = cur.fetchall()
 
-        cur.execute(
-            "Select animal_animal_disease_history_animal_disease_name, animal_animal_disease_history_animal_id, animal_animal_disease_history_animal_disease_no_of_months FROM ANIMAL_ANIMAL_DISEASE_HISTORY LIMIT 0"
-        )
+        cur.execute(f"{select_statement} LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -199,8 +189,8 @@ def doctor_login_animal_disease_history_insert():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO ANIMAL_ANIMAL_DISEASE_HISTORY VALUES ('{animal_disease_name}', '{animal_id}', {animal_disease_no_of_months}, {animal_disease_history_genral_public_aadhar}, {pet_shop_certificate_no}, {animal_shelter_certificate_no}, {zoo_id})"
-        cur.execute(insert_statement_1)
+        insert_statement = f"INSERT INTO ANIMAL_ANIMAL_DISEASE_HISTORY VALUES ('{animal_disease_name}', '{animal_id}', {animal_disease_no_of_months}, {animal_disease_history_genral_public_aadhar}, {pet_shop_certificate_no}, {animal_shelter_certificate_no}, {zoo_id})"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -274,8 +264,8 @@ def doctor_login_animal_disease_history_update():
             f"{colnames[i]}={values[i]} WHERE {colnames[1]} = '{animal_id}';"
         )
 
-        update_statement_1 = f"UPDATE ANIMAL_ANIMAL_DISEASE_HISTORY SET {value_string}"
-        cur.execute(update_statement_1)
+        update_statement = f"UPDATE ANIMAL_ANIMAL_DISEASE_HISTORY SET {value_string}"
+        cur.execute(update_statement)
 
         cur.close()
         connection.commit()
@@ -301,7 +291,7 @@ def doctor_login_animal_type_care_select():
 
         results = cur.fetchall()
 
-        cur.execute("Select animal_type_animal_type_care_animal_type_care, animal_type_animal_type_care_animal_type_breed FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE LIMIT 0")
+        cur.execute(f"{select_statement} LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -327,8 +317,8 @@ def doctor_login_animal_type_care_insert():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO ANIMAL_TYPE_ANIMAL_TYPE_CARE VALUES ('{id}', '{type_of_care}', '{breed}')"
-        cur.execute(insert_statement_1)
+        insert_statement = f"INSERT INTO ANIMAL_TYPE_ANIMAL_TYPE_CARE VALUES ('{id}', '{type_of_care}', '{breed}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -363,8 +353,8 @@ def doctor_login_animal_type_care_update():
 
         value_string += f"{colnames[i]}='{values[i]}' WHERE {colnames[0]} = '{id}';"
 
-        update_statement_1 = f"UPDATE ANIMAL_TYPE_ANIMAL_TYPE_CARE SET {value_string}"
-        cur.execute(update_statement_1)
+        update_statement = f"UPDATE ANIMAL_TYPE_ANIMAL_TYPE_CARE SET {value_string}"
+        cur.execute(update_statement)
 
         cur.close()
         connection.commit()
@@ -391,9 +381,7 @@ def doctor_login_query_answers_select():
 
         results = cur.fetchall()
 
-        cur.execute(
-            "SELECT queries_query_question, queries_query_answer_query_answer, queries_query_answer_query_answered_by FROM QUERIES, QUERIES_QUERY_ANSWER WHERE  queries_query_id = queries_query_answer_query_id LIMIT 0"
-        )
+        cur.execute(f"{select_statement} LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -420,8 +408,8 @@ def doctor_login_query_answers_insert():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO QUERIES_QUERY_ANSWER VALUES ('{id}', '{query_answer}', '{query_id}', '{query_answered_by}')"
-        cur.execute(insert_statement_1)
+        insert_statement = f"INSERT INTO QUERIES_QUERY_ANSWER VALUES ('{id}', '{query_answer}', '{query_id}', '{query_answered_by}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -460,8 +448,8 @@ def doctor_login_query_answers_update():
 
         value_string += f"{colnames[i]}='{values[i]}' WHERE {colnames[0]} = '{id}';"
 
-        update_statement_1 = f"UPDATE QUERIES_QUERY_ANSWER SET {value_string}"
-        cur.execute(update_statement_1)
+        update_statement = f"UPDATE QUERIES_QUERY_ANSWER SET {value_string}"
+        cur.execute(update_statement)
 
         cur.close()
         connection.commit()
@@ -491,8 +479,6 @@ def incharge_login():
 @app.route("/login/incharge/animal-shelter", methods=["POST", "GET"])
 def incharge_animal_shelter_login():
     if request.method == "POST":
-        certificate_no = "incharge_animal_shelter" + request.form.get("certificateNo")
-        password = request.form.get("password")
         certificate_no = "postgres"
         password = "2020"
         session["incharge_animal_shelter_login_credential"] = (certificate_no, password)
@@ -531,7 +517,7 @@ def incharge_animal_shelter_login_select():
 
         results = cur.fetchall()
 
-        cur.execute("Select * FROM ANIMAL_SHELTER LIMIT 0")
+        cur.execute(f"{select_statement} LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -560,8 +546,8 @@ def incharge_animal_shelter_login_insert():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO ANIMAL_SHELTER VALUES ('{certificate_no}', {no_of_pets}, '{address}', '{phone}', '{name}', '{city}')"
-        cur.execute(insert_statement_1)
+        insert_statement = f"INSERT INTO ANIMAL_SHELTER VALUES ('{certificate_no}', {no_of_pets}, '{address}', '{phone}', '{name}', '{city}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -604,10 +590,10 @@ def incharge_animal_shelter_login_update():
             f"{colnames[i]}='{values[i]}' WHERE {colnames[0]} = '{certificate_no}';"
         )
 
-        update_statement_1 = f"UPDATE ANIMAL_SHELTER SET {value_string}"
+        update_statement = f"UPDATE ANIMAL_SHELTER SET {value_string}"
 
-        print(update_statement_1)
-        cur.execute(update_statement_1)
+        print(update_statement)
+        cur.execute(update_statement)
 
         cur.close()
         connection.commit()
@@ -663,7 +649,7 @@ def incharge_pet_shop_login_select():
 
         results = cur.fetchall()
 
-        cur.execute("Select * FROM PET_SHOP LIMIT 0")
+        cur.execute(f"{select_statement} LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -692,8 +678,8 @@ def incharge_pet_shop_login_insert():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO PET_SHOP VALUES ('{no_of_pets}', {certificate_no}, '{phone}', '{name}', '{address}', '{city}')"
-        cur.execute(insert_statement_1)
+        insert_statement = f"INSERT INTO PET_SHOP VALUES ('{no_of_pets}', {certificate_no}, '{phone}', '{name}', '{address}', '{city}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -736,10 +722,10 @@ def incharge_pet_shop_login_update():
             f"{colnames[i]}='{values[i]}' WHERE {colnames[1]} = '{certificate_no}';"
         )
 
-        update_statement_1 = f"UPDATE PET_SHOP SET {value_string}"
+        update_statement = f"UPDATE PET_SHOP SET {value_string}"
 
-        print(update_statement_1)
-        cur.execute(update_statement_1)
+        print(update_statement)
+        cur.execute(update_statement)
 
         cur.close()
         connection.commit()
@@ -755,8 +741,6 @@ def incharge_pet_shop_login_update():
 @app.route("/login/incharge/zoo", methods=["POST", "GET"])
 def incharge_zoo_login():
     if request.method == "POST":
-        id = "incharge_zoo" + request.form.get("id")
-        password = request.form.get("password")
         id = "postgres"
         password = "2020"
         session["incharge_zoo_login_credential"] = (id, password)
@@ -793,7 +777,7 @@ def incharge_zoo_login_select():
 
         results = cur.fetchall()
 
-        cur.execute("Select * FROM ZOOS LIMIT 0")
+        cur.execute(f"{select_statement} LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         cur.close()
@@ -822,8 +806,8 @@ def incharge_zoo_login_insert():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO ZOOS VALUES ('{id}', '{name}', '{address}', '{phone}', {no_of_animals}, '{visiting_hours}')"
-        cur.execute(insert_statement_1)
+        insert_statement = f"INSERT INTO ZOOS VALUES ('{id}', '{name}', '{address}', '{phone}', {no_of_animals}, '{visiting_hours}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -866,9 +850,9 @@ def incharge_zoo_login_update():
         i += 1
         value_string += f"{colnames[i]}='{values[i]}' WHERE {colnames[0]} = '{id}';"
 
-        update_statement_1 = f"UPDATE ZOOS SET {value_string}"
+        update_statement = f"UPDATE ZOOS SET {value_string}"
 
-        cur.execute(update_statement_1)
+        cur.execute(update_statement)
 
         cur.close()
         connection.commit()
@@ -912,12 +896,8 @@ def general_public_signup():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO GENERAL_PUBLIC VALUES ('{name}', '{phone}', '{email}', '{address}', {age}, '{aadhar_no}')"
-        insert_statement_2 = (
-            f"INSERT INTO LOGIN_PUBLIC VALUES ('{aadhar_no}', '{name}', '{password}')"
-        )
-        cur.execute(insert_statement_1)
-        cur.execute(insert_statement_2)
+        insert_statement = f"INSERT INTO GENERAL_PUBLIC VALUES ('{name}', '{phone}', '{email}', '{address}', {age}, '{aadhar_no}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -945,10 +925,8 @@ def doctor_signup():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO DOCTORS VALUES ('{domain}', '{name}', '{phone}', '{email}', '{hospital_address}', '{certificate_no}')"
-        insert_statement_2 = f"INSERT INTO LOGIN_DOCTORS VALUES ('{certificate_no}', '{name}', '{password}')"
-        cur.execute(insert_statement_1)
-        cur.execute(insert_statement_2)
+        insert_statement = f"INSERT INTO DOCTORS VALUES ('{domain}', '{name}', '{phone}', '{email}', '{hospital_address}', '{certificate_no}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -989,10 +967,8 @@ def animal_shelter_signup():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO ANIMAL_SHELTER VALUES ('{certificate_no}', {no_of_pets}, '{address}', '{phone}', '{name}', '{city}')"
-        insert_statement_2 = f"INSERT INTO LOGIN_ANIMAL_SHELTER VALUES ('{certificate_no}', '{name}', '{password}')"
-        cur.execute(insert_statement_1)
-        cur.execute(insert_statement_2)
+        insert_statement = f"INSERT INTO ANIMAL_SHELTER VALUES ('{certificate_no}', {no_of_pets}, '{address}', '{phone}', '{name}', '{city}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -1020,10 +996,8 @@ def pet_shop_signup():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO PET_SHOP VALUES ({no_of_pets}, '{certificate_no}', '{phone}', '{name}', '{address}', '{city}')"
-        insert_statement_2 = f"INSERT INTO LOGIN_PET_SHOP VALUES ('{certificate_no}', '{name}', '{password}')"
-        cur.execute(insert_statement_1)
-        cur.execute(insert_statement_2)
+        insert_statement = f"INSERT INTO PET_SHOP VALUES ({no_of_pets}, '{certificate_no}', '{phone}', '{name}', '{address}', '{city}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()
@@ -1051,12 +1025,8 @@ def zoo_signup():
 
         cur = connection.cursor()
 
-        insert_statement_1 = f"INSERT INTO ZOOS VALUES ('{id}', '{name}', '{address}', '{phone}', {no_of_animals}, '{visiting_hours}')"
-        insert_statement_2 = (
-            f"INSERT INTO LOGIN_ZOO VALUES ('{id}', '{name}', '{password}')"
-        )
-        cur.execute(insert_statement_1)
-        cur.execute(insert_statement_2)
+        insert_statement = f"INSERT INTO ZOOS VALUES ('{id}', '{name}', '{address}', '{phone}', {no_of_animals}, '{visiting_hours}')"
+        cur.execute(insert_statement)
 
         cur.close()
         connection.commit()

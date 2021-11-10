@@ -108,19 +108,26 @@
                     <br />
                     <table>
                         <tr>
-                            {% for heading in colnames %}
+                            {% for heading in colnames[:-1] %}
                             <td class="td_style_2">
-                                {{heading[:].upper()}}
+                                {{heading[7:].upper()}}
                             </td>
                             {% endfor %}
+                            <td class="td_style_2">
+                                {{colnames[-1][7:-5].upper()}}
+                            </td>
                         </tr>
                         {% for attributes in results %}
                         <tr>
-                            {% for sub_attributes in attributes %}
+                            {% for sub_attributes in attributes[:-1] %}
                             <td class="td_style_1">
                                 {{sub_attributes}}
                             </td>
                             {% endfor %}
+                            <td class="td_style_1">
+                                <img src={{attributes[-1]}} width="144" , height="120"
+                                    style="border: 5px solid; border-color: var(--nord8);">
+                            </td>
                         </tr>
                         {% endfor %}
                     </table>
