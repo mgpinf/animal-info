@@ -130,7 +130,7 @@ def doctor_login_animal_disease_history_select():
         )
         cur = connection.cursor()
 
-        select_statement = f"SELECT  animal_animal_disease_history_animal_disease_name, animal_animal_disease_history_animal_id, animal_animal_disease_history_animal_disease_no_of_months FROM ANIMAL_ANIMAL_DISEASE_HISTORY"
+        select_statement = f"SELECT animal_animal_disease_history_animal_disease_name, animal_animal_disease_history_animal_id, animal_animal_disease_history_animal_disease_no_of_months FROM ANIMAL_ANIMAL_DISEASE_HISTORY"
         cur.execute(select_statement)
 
         results = cur.fetchall()
@@ -250,7 +250,7 @@ def doctor_login_animal_disease_history_update():
         )
 
         cur = connection.cursor()
-        cur.execute("Select * FROM ANIMAL_ANIMAL_DISEASE_HISTORY LIMIT 0")
+        cur.execute("SELECT * FROM ANIMAL_ANIMAL_DISEASE_HISTORY LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
 
         value_string = ""
@@ -286,7 +286,7 @@ def doctor_login_animal_type_care_select():
         )
         cur = connection.cursor()
 
-        select_statement = f"Select animal_type_animal_type_care_animal_type_care, animal_type_animal_type_care_animal_type_breed FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE"
+        select_statement = f"SELECT animal_type_animal_type_care_animal_type_care, animal_type_animal_type_care_animal_type_breed FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE"
         cur.execute(select_statement)
 
         results = cur.fetchall()
@@ -341,7 +341,7 @@ def doctor_login_animal_type_care_update():
 
         cur = connection.cursor()
 
-        cur.execute("Select * FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE LIMIT 0")
+        cur.execute("SELECT * FROM ANIMAL_TYPE_ANIMAL_TYPE_CARE LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
         value_string = ""
 
@@ -436,7 +436,7 @@ def doctor_login_query_answers_update():
 
         cur = connection.cursor()
 
-        cur.execute("Select * FROM QUERIES_QUERY_ANSWER LIMIT 0")
+        cur.execute("SELECT * FROM QUERIES_QUERY_ANSWER LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
         value_string = ""
 
@@ -576,7 +576,7 @@ def incharge_animal_shelter_login_update():
 
         cur = connection.cursor()
 
-        cur.execute("Select * FROM ANIMAL_SHELTER LIMIT 0")
+        cur.execute("SELECT * FROM ANIMAL_SHELTER LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
         value_string = ""
 
@@ -708,7 +708,7 @@ def incharge_pet_shop_login_update():
 
         cur = connection.cursor()
 
-        cur.execute("Select * FROM PET_SHOP LIMIT 0")
+        cur.execute("SELECT * FROM PET_SHOP LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
         value_string = ""
 
@@ -835,7 +835,7 @@ def incharge_zoo_login_update():
 
         cur = connection.cursor()
 
-        cur.execute("Select * FROM ZOOS LIMIT 0")
+        cur.execute("SELECT * FROM ZOOS LIMIT 0")
         colnames = [desc[0] for desc in cur.description]
         value_string = ""
 
