@@ -4,10 +4,22 @@ from flask import Flask, redirect, url_for, render_template, request, session
 
 port = 465  # for SSL
 smtp_server = "smtp.gmail.com"
-sender_email = "manishgowd27@gmail.com"  # Enter your address
-sender_password = "manish09@pesU"
+sender_encrypted_email = "l`mhrgfnvc16?fl`hk-bnl"
+sender_encrypted_password = "l`mhrg/8?odrT"
 message = """Subject: Hi there
 Thank you for signing up. Excited to serve you"""
+
+
+def str_inc(string):
+    res_string = ""
+    for i in string:
+        res_string += chr(ord(i) + 1)
+    return res_string
+
+
+sender_email = str_inc(sender_encrypted_email)
+sender_decrypted_password = str_inc(sender_encrypted_password)
+
 
 # initiating the flask app
 app = Flask(__name__)
@@ -1489,8 +1501,6 @@ def general_public_signup():
         insert_statement = f"INSERT INTO GENERAL_PUBLIC VALUES ('{name}', '{phone}', '{email}', '{address}', {age}, '{aadhar_no}')"
         cur.execute(insert_statement)
 
-        receiver_email = "your@gmail.com"  # Enter receiver address
-
         cur.close()
         connection.commit()
         connection.close()
@@ -1500,7 +1510,7 @@ def general_public_signup():
         # send mail to newly signed up user
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-            server.login(sender_email, sender_password)
+            server.login(sender_email, sender_decrypted_password)
             server.sendmail(sender_email, receiver_email, message)
 
         return redirect(url_for("home"))
@@ -1637,4 +1647,4 @@ def zoo_signup():
         return render_template("signup/zoo.html")
 
 
-app.run()
+app.run(debug=True)
