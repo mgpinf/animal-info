@@ -1,6 +1,13 @@
-import re
 import psycopg2
+import smtplib, ssl
 from flask import Flask, redirect, url_for, render_template, request, session
+
+port = 465  # for SSL
+smtp_server = "smtp.gmail.com"
+sender_email = "manishgowd27@gmail.com"  # Enter your address
+sender_password = "manish09@pesU"
+message = """Subject: Hi there
+Thank you for signing up. Excited to serve you"""
 
 # initiating the flask app
 app = Flask(__name__)
@@ -325,7 +332,7 @@ def doctor_login_people_adopted_animals_with_disease_history():
         connection.commit()
         connection.close()
         return render_template(
-            "logi/doctor/people_adopted_animals_with_disease_history.html",
+            "login/doctor/people_adopted_animals_with_disease_history.html",
             colnames=colnames,
             results=results,
         )
@@ -776,7 +783,9 @@ def incharge_animal_shelter_login_operation():
         elif operation == "peopleNotAdopted":
             return redirect(url_for("incharge_animal_shelter_login_people_not_adopted"))
         elif operation == "peopleAdoptedAfter":
-            return redirect(url_for("incharge_animal_shelter_login_people_adopted_after"))
+            return redirect(
+                url_for("incharge_animal_shelter_login_people_adopted_after")
+            )
     else:
         return render_template("login/incharge/animal_shelter/operation.html")
 
@@ -924,6 +933,7 @@ def incharge_animal_shelter_login_select_group():
             results=results,
         )
 
+
 @app.route("/login/incharge/animal-shelter/people-not-adopted", methods=["POST", "GET"])
 def incharge_animal_shelter_login_people_not_adopted():
     if request.method == "POST":
@@ -966,7 +976,10 @@ def incharge_animal_shelter_login_people_not_adopted():
             results=results,
         )
 
-@app.route("/login/incharge/animal-shelter/people-adopted-after", methods=["POST", "GET"])
+
+@app.route(
+    "/login/incharge/animal-shelter/people-adopted-after", methods=["POST", "GET"]
+)
 def incharge_animal_shelter_login_people_adopted_after():
     if request.method == "POST":
         return redirect(url_for("home"))
@@ -1009,7 +1022,6 @@ def incharge_animal_shelter_login_people_adopted_after():
         )
 
 
-
 @app.route("/login/incharge/pet-shop", methods=["POST", "GET"])
 def incharge_pet_shop_login():
     if request.method == "POST":
@@ -1038,7 +1050,9 @@ def incharge_pet_shop_login_operation():
         elif operation == "selectPetCareProducts":
             return redirect(url_for("incharge_pet_shop_login_select_pet_care_products"))
         elif operation == "selectPeopleAdoptedWithMore":
-            return redirect(url_for("incharge_pet_shop_login_select_people_adopted_with_more"))
+            return redirect(
+                url_for("incharge_pet_shop_login_select_people_adopted_with_more")
+            )
     else:
         return render_template("login/incharge/pet_shop/operation.html")
 
@@ -1221,7 +1235,10 @@ def incharge_pet_shop_login_select_pet_care_products():
             results=results,
         )
 
-@app.route("/login/incharge/pet-shop/select-people-adopted-with-more", methods=["POST", "GET"])
+
+@app.route(
+    "/login/incharge/pet-shop/select-people-adopted-with-more", methods=["POST", "GET"]
+)
 def incharge_pet_shop_login_select_people_adopted_with_more():
     if request.method == "POST":
         return redirect(url_for("home"))
@@ -1472,9 +1489,19 @@ def general_public_signup():
         insert_statement = f"INSERT INTO GENERAL_PUBLIC VALUES ('{name}', '{phone}', '{email}', '{address}', {age}, '{aadhar_no}')"
         cur.execute(insert_statement)
 
+        receiver_email = "your@gmail.com"  # Enter receiver address
+
         cur.close()
         connection.commit()
         connection.close()
+
+        receiver_email = email
+
+        # send mail to newly signed up user
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, receiver_email, message)
 
         return redirect(url_for("home"))
     else:
@@ -1610,4 +1637,4 @@ def zoo_signup():
         return render_template("signup/zoo.html")
 
 
-app.run(debug=True)
+app.run()
