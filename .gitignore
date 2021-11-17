@@ -130,3 +130,10 @@ dmypy.json
 
 # code workspace
 workspace.code-workspace
+
+# powershell files
+*.ps1
+
+# testing files
+commands.sql
+triggers.sql

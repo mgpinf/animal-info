@@ -3,49 +3,6 @@
 {% block content %}
 
 <style>
-    h1 {
-        text-align: center;
-        color: var(--nord14);
-        background: -webkit-linear-gradient(var(--nord14), var(--nord7));
-        background-clip: inherit;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: bold;
-    }
-
-    h4 {
-        font-weight: bold;
-        color: var(--nord6);
-    }
-
-    h6 {
-        font-weight: bold;
-        color: var(--nord7);
-    }
-
-    label {
-        font-weight: bold;
-        color: var(--nord8);
-    }
-
-    small {
-        font-weight: bold;
-        color: var(--nord9);
-    }
-
-
-    hr {
-        color: var(--nord0);
-    }
-
-    button {
-        background-color: var(--nord8);
-    }
-
-    #heading {
-        background: linear-gradient(var(--nord0), var(--merc0) 60%, var(--nord0))
-    }
-
     .center {
         margin-left: 200px;
         margin-right: 200px;
@@ -56,6 +13,21 @@
 <div id="heading">
     <h1>GENERAL PUBLIC</h1>
 </div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for msg in messages %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+    {{msg}}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<script type="text/javascript">
+    setTimeout(function () {
+        $('.alert').alert('close');
+    }, 400);
+</script>
 
 <div class="my-md-3 container">
     <div class="row">

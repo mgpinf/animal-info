@@ -82,6 +82,7 @@ CREATE TABLE ANIMAL (
   animal_gender CHAR(1) NOT NULL,
   animal_weight FLOAT NOT NULL,
   animal_age INT NOT NULL,
+  animal_image_link varchar(5000) NOT NULL,
   PRIMARY KEY(animal_id),
   FOREIGN KEY(animal_type_id) REFERENCES ANIMAL_TYPE(animal_type_id) ON UPDATE CASCADE ON DELETE CASCADE
 );

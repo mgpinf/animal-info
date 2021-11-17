@@ -1,3 +1,4 @@
+from flask.helpers import flash
 import psycopg2
 import smtplib, ssl
 from flask import Flask, redirect, url_for, render_template, request, session
@@ -8,6 +9,8 @@ sender_encrypted_email = "l`mhrgfnvc16?fl`hk-bnl"
 sender_encrypted_password = "l`mhrg/8?odrT"
 message = """Subject: Hi there
 Thank you for signing up. Excited to serve you"""
+user_name = "postgres"
+user_password = "2020"
 
 
 def str_inc(string):
@@ -59,25 +62,31 @@ def general_public_login():
         entered_aadhar = request.form["aadhar"]
         entered_password = request.form["password"]
 
-        user_name = "postgres"
-        user_password = "2020"
-
         connection = psycopg2.connect(
             user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
+        list_of_users_statement = f"SELECT login_public_adhar_no_id FROM LOGIN_PUBLIC"
+        cur.execute(list_of_users_statement)
+
+        list_of_users = cur.fetchall()
+        list_of_users = [i[0] for i in list_of_users]
+
+        if str(entered_aadhar) not in list_of_users:
+            flash("Invalid credentials")
+            return redirect(url_for("general_public_login"))
+
         select_statement = f"SELECT login_public_password FROM LOGIN_PUBLIC WHERE login_public_adhar_no_id = '{entered_aadhar}'"
         cur.execute(select_statement)
 
         actual_password = cur.fetchone()[0]
 
         if entered_password == actual_password:
-            session["general_public_login_credential"] = (user_name, user_password)
-            print("Successfully logged in")
+            flash("Successfully logged in")
             return redirect(url_for("general_public_login_operation"))
         else:
-            print("Incorrect password entered. Try again")
+            flash("Invalid credentials")
             return redirect(url_for("general_public_login"))
     else:
         return render_template("login/general_public.html")
@@ -100,16 +109,44 @@ def general_public_login_operation():
 @app.route("/login/general-public/select", methods=["POST", "GET"])
 def general_public_login_select():
     if request.method == "POST":
-        print("Logged out")
-        return redirect(url_for("home"))
+        operation = request.form["name"]
+        if operation == "forAdoption":
+            return redirect(url_for("general_public_login_select_for_adoption"))
+        elif operation == "forSponsorship":
+            return redirect(url_for("general_public_login_select_for_sponsorship"))
     else:
-        aadhar, password = session["general_public_login_credential"]
+        return render_template("login/general_public/select.html")
+
+
+# to be modified
+@app.route("/login/general-public/select/for-adoption", methods=["POST", "GET"])
+def general_public_login_select_for_adoption():
+    if request.method == "POST":
+        if request.form["proceed-submit"] == "logout":
+            flash("Logged out")
+            return redirect(url_for("home"))
+        else:
+            animal_id = request.form["proceed-submit"]
+            update_statement = f"UPDATE ANIMAL set animal_adopted = true WHERE animal_id ='{animal_id}'"
+
+            connection = psycopg2.connect(
+                user=user_name, password=user_password, database="project"
+            )
+            cur = connection.cursor()
+            cur.execute(update_statement)
+            cur.close()
+            connection.commit()
+            connection.close()
+            flash("Successfully adopted")
+            return redirect(url_for("general_public_login_select_for_adoption"))
+    else:
         connection = psycopg2.connect(
-            user=aadhar, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
-        select_statement = f"SELECT * FROM ANIMAL WHERE animal_adopted = false"
+        # select_statement = f"SELECT * FROM ANIMAL WHERE animal_adopted = false and animal_from_zoos = false"
+        select_statement = f"SELECT A.animal_id,A.animal_image_link,A.animal_gender,A.animal_weight,A.animal_age,B.animal_type_breed,B.animal_type_type FROM ANIMAL AS A,ANIMAL_TYPE AS B WHERE A.animal_adopted = false AND A.animal_from_zoos = false AND A.animal_type_id = B.animal_type_id"
         cur.execute(select_statement)
 
         results = cur.fetchall()
@@ -121,7 +158,55 @@ def general_public_login_select():
         connection.commit()
         connection.close()
         return render_template(
-            "login/general_public/select.html",
+            "login/general_public/select/for_adoption.html",
+            colnames=colnames,
+            results=results,
+        )
+
+
+# to be modified
+@app.route("/login/general-public/select/for-sponsorship", methods=["POST", "GET"])
+def general_public_login_select_for_sponsorship():
+    if request.method == "POST":
+        if request.form["proceed-submit"] == "logout":
+            flash("Logged out")
+            return redirect(url_for("home"))
+        else:
+            animal_id = request.form["proceed-submit"]
+            insert_statement = f"UPDATE ANIMAL SET animal_adopted = true WHERE animal_id ='{animal_id}'"
+
+            connection = psycopg2.connect(
+                user=user_name, password=user_password, database="project"
+            )
+            cur = connection.cursor()
+            cur.execute(insert_statement)
+            cur.close()
+            connection.commit()
+            connection.close()
+
+            # flash("Successfully sponsored")
+            return redirect(url_for("general_public_login_select_for_sponsorship"))
+    else:
+        connection = psycopg2.connect(
+            user=user_name, password=user_password, database="project"
+        )
+        cur = connection.cursor()
+
+        # select_statement = f"SELECT * FROM ANIMAL WHERE animal_adopted = false and animal_from_zoos = true"
+        select_statement = f"SELECT A.animal_id,A.animal_image_link,A.animal_gender,A.animal_weight,A.animal_age,B.animal_type_breed,B.animal_type_type FROM ANIMAL AS A,ANIMAL_TYPE AS B WHERE A.animal_adopted = false AND A.animal_from_zoos = true AND A.animal_type_id = B.animal_type_id"
+        cur.execute(select_statement)
+
+        results = cur.fetchall()
+
+        cur.execute(f"{select_statement} LIMIT 0")
+        colnames = [desc[0] for desc in cur.description]
+
+        cur.close()
+        connection.commit()
+        connection.close()
+
+        return render_template(
+            "login/general_public/select/for_sponsorship.html",
             colnames=colnames,
             results=results,
         )
@@ -130,12 +215,11 @@ def general_public_login_select():
 @app.route("/login/general-public/select-adopted", methods=["POST", "GET"])
 def general_public_login_select_adopted():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        aadhar, password = session["general_public_login_credential"]
         connection = psycopg2.connect(
-            user=aadhar, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -173,12 +257,11 @@ def general_public_login_select_adopted():
 @app.route("/login/general-public/select-criteria", methods=["POST", "GET"])
 def general_public_login_select_criteria():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        aadhar, password = session["general_public_login_credential"]
         connection = psycopg2.connect(
-            user=aadhar, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -228,25 +311,33 @@ def doctor_login():
         entered_certificate_no = request.form["certificateNo"]
         entered_password = request.form["password"]
 
-        user_name = "postgres"
-        user_password = "2020"
-
         connection = psycopg2.connect(
             user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
+        list_of_users_statement = (
+            f"SELECT login_doctor_certificate_no_id FROM LOGIN_DOCTORS"
+        )
+        cur.execute(list_of_users_statement)
+
+        list_of_users = cur.fetchall()
+        list_of_users = [i[0] for i in list_of_users]
+
+        if str(entered_certificate_no) not in list_of_users:
+            flash("Invalid credentials")
+            return redirect(url_for("doctor_login"))
+
         select_statement = f"SELECT login_doctor_password FROM LOGIN_DOCTORS WHERE login_doctor_certificate_no_id = '{entered_certificate_no}'"
         cur.execute(select_statement)
 
         actual_password = cur.fetchone()[0]
 
         if entered_password == actual_password:
-            session["doctor_login_credential"] = (user_name, user_password)
-            print("Successfully logged in")
+            flash("Successfully logged in")
             return redirect(url_for("doctor_login_table"))
         else:
-            print("Incorrect password entered. Try again")
+            flash("Invalid credentials")
             return redirect(url_for("doctor_login"))
     else:
         return render_template("login/doctor.html")
@@ -277,12 +368,11 @@ def doctor_login_table():
 @app.route("/login/doctor/select/doctor-details", methods=["POST", "GET"])
 def doctor_login_doctor_details_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["doctor_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -312,12 +402,11 @@ def doctor_login_doctor_details_select():
 @app.route("/login/doctor/select/doctor-groups", methods=["POST", "GET"])
 def doctor_login_doctor_groups_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["doctor_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -352,11 +441,11 @@ def doctor_login_doctor_groups_select():
 )
 def doctor_login_people_adopted_animals_with_disease_history():
     if request.method == "POST":
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["doctor_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -396,11 +485,11 @@ def doctor_login_people_adopted_animals_with_disease_history():
 @app.route("/login/doctor/select/queries-not-answered", methods=["POST", "GET"])
 def doctor_login_queries_not_answered():
     if request.method == "POST":
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["doctor_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -458,12 +547,11 @@ def doctor_login_operation():
 @app.route("/login/doctor/animal-disease-history/select", methods=["POST", "GET"])
 def doctor_login_animal_disease_history_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["doctor_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -521,7 +609,7 @@ def doctor_login_animal_disease_history_insert():
             zoo_id = "'" + zoo_id + "'"
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -532,6 +620,7 @@ def doctor_login_animal_disease_history_insert():
         cur.close()
         connection.commit()
         connection.close()
+        flash("Successfully inserted")
         return redirect(url_for("home"))
     else:
         return render_template("login/doctor/animal_disease_history/insert.html")
@@ -583,7 +672,7 @@ def doctor_login_animal_disease_history_update():
         )
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -607,6 +696,7 @@ def doctor_login_animal_disease_history_update():
         cur.close()
         connection.commit()
         connection.close()
+        flash("Successfully updated")
         return redirect(url_for("home"))
     else:
         return render_template("login/doctor/animal_disease_history/update.html")
@@ -615,12 +705,11 @@ def doctor_login_animal_disease_history_update():
 @app.route("/login/doctor/animal-type-care/select", methods=["POST", "GET"])
 def doctor_login_animal_type_care_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["doctor_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -650,7 +739,7 @@ def doctor_login_animal_type_care_insert():
         breed = request.form.get("breed")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -661,6 +750,8 @@ def doctor_login_animal_type_care_insert():
         cur.close()
         connection.commit()
         connection.close()
+
+        flash("Successfully inserted")
         return redirect(url_for("home"))
     else:
         return render_template("login/doctor/animal_type_care/insert.html")
@@ -674,7 +765,7 @@ def doctor_login_animal_type_care_update():
         breed = request.form.get("breed")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -698,6 +789,7 @@ def doctor_login_animal_type_care_update():
         connection.commit()
         connection.close()
 
+        flash("Successfully updated")
         return redirect(url_for("home"))
     else:
         return render_template("login/doctor/animal_type_care/update.html")
@@ -706,12 +798,11 @@ def doctor_login_animal_type_care_update():
 @app.route("/login/doctor/query-answer/select", methods=["POST", "GET"])
 def doctor_login_query_answers_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["doctor_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -742,7 +833,7 @@ def doctor_login_query_answers_insert():
         query_answered_by = request.form.get("queryAnsweredBy")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -754,6 +845,7 @@ def doctor_login_query_answers_insert():
         connection.commit()
         connection.close()
 
+        flash("Successfully inserted")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -770,7 +862,7 @@ def doctor_login_query_answers_update():
         query_answered_by = request.form.get("queryAnsweredBy")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -794,6 +886,7 @@ def doctor_login_query_answers_update():
         connection.commit()
         connection.close()
 
+        flash("Successfully updated")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -822,30 +915,34 @@ def incharge_animal_shelter_login():
         entered_certificate_no = request.form["certificateNo"]
         entered_password = request.form["password"]
 
-        user_name = "postgres"
-        user_password = "2020"
-
-        session["incharge_animal_shelter_login_credential"] = (user_name, user_password)
-
         connection = psycopg2.connect(
             user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
+
+        list_of_users_statement = (
+            f"SELECT login_animal_shelter_certificate_no_id FROM LOGIN_ANIMAL_SHELTER"
+        )
+        cur.execute(list_of_users_statement)
+
+        list_of_users = cur.fetchall()
+        list_of_users = list(map(lambda x:x[0], list_of_users))
+
+        if str(entered_certificate_no) not in list_of_users:
+            flash("Invalid credentials")
+            return redirect(url_for("incharge_animal_shelter_login"))
+
         select_statement = f"SELECT login_animal_shelter_password FROM LOGIN_ANIMAL_SHELTER WHERE login_animal_shelter_certificate_no_id = '{entered_certificate_no}'"
         cur.execute(select_statement)
 
         actual_password = cur.fetchone()[0]
 
         if entered_password == actual_password:
-            session["incharge_animal_shelter_login_credential"] = (
-                user_name,
-                user_password,
-            )
-            print("Successfully logged in")
+            flash("Successfully logged in")
             return redirect(url_for("incharge_animal_shelter_login_operation"))
         else:
-            print("Incorrect password entered. Try again")
+            flash("Invalid credentials")
             return redirect(url_for("incharge_animal_shelter_login"))
     else:
         return render_template("login/incharge/animal_shelter.html")
@@ -876,12 +973,11 @@ def incharge_animal_shelter_login_operation():
 @app.route("/login/incharge/animal-shelter/select", methods=["POST", "GET"])
 def incharge_animal_shelter_login_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["incharge_animal_shelter_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -914,7 +1010,7 @@ def incharge_animal_shelter_login_insert():
         city = request.form.get("city")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -926,6 +1022,7 @@ def incharge_animal_shelter_login_insert():
         connection.commit()
         connection.close()
 
+        flash("Successfully inserted")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -944,7 +1041,7 @@ def incharge_animal_shelter_login_update():
         city = request.form.get("city")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -972,6 +1069,7 @@ def incharge_animal_shelter_login_update():
         connection.commit()
         connection.close()
 
+        flash("Successfully inserted")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -982,11 +1080,12 @@ def incharge_animal_shelter_login_update():
 @app.route("/login/incharge/animal-shelter/select-group", methods=["POST", "GET"])
 def incharge_animal_shelter_login_select_group():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        id, password = session["incharge_animal_shelter_login_credential"]
-        connection = psycopg2.connect(user=id, password=password, database="project")
+        connection = psycopg2.connect(
+            user=user_name, password=user_password, database="project"
+        )
         cur = connection.cursor()
 
         select_statement = f"""
@@ -1022,11 +1121,11 @@ def incharge_animal_shelter_login_select_group():
 @app.route("/login/incharge/animal-shelter/people-not-adopted", methods=["POST", "GET"])
 def incharge_animal_shelter_login_people_not_adopted():
     if request.method == "POST":
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["incharge_animal_shelter_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -1067,11 +1166,11 @@ def incharge_animal_shelter_login_people_not_adopted():
 )
 def incharge_animal_shelter_login_people_adopted_after():
     if request.method == "POST":
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["incharge_animal_shelter_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -1113,30 +1212,34 @@ def incharge_pet_shop_login():
         entered_certificate_no = request.form["certificateNo"]
         entered_password = request.form["password"]
 
-        user_name = "postgres"
-        user_password = "2020"
-
-        session["incharge_pet_shop_login_credential"] = (user_name, user_password)
-
         connection = psycopg2.connect(
             user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
+
+        list_of_users_statement = (
+            f"SELECT login_pet_shop_certificate_no_id FROM LOGIN_PET_SHOP"
+        )
+        cur.execute(list_of_users_statement)
+
+        list_of_users = cur.fetchall()
+        list_of_users = [i[0] for i in list_of_users]
+
+        if str(entered_certificate_no) not in list_of_users:
+            flash("Invalid credentials")
+            return redirect(url_for("incharge_pet_shop_login"))
+
         select_statement = f"SELECT login_pet_shop_password FROM LOGIN_PET_SHOP WHERE login_pet_shop_certificate_no_id = '{entered_certificate_no}'"
         cur.execute(select_statement)
 
         actual_password = cur.fetchone()[0]
 
         if entered_password == actual_password:
-            session["incharge_pet_shop_login_credential"] = (
-                user_name,
-                user_password,
-            )
-            print("Successfully logged in")
+            flash("Successfully logged in")
             return redirect(url_for("incharge_pet_shop_login_operation"))
         else:
-            print("Incorrect password entered. Try again")
+            flash("Invalid credentials")
             return redirect(url_for("incharge_pet_shop_login"))
     else:
         return render_template("login/incharge/pet_shop.html")
@@ -1167,12 +1270,11 @@ def incharge_pet_shop_login_operation():
 @app.route("/login/incharge/pet-shop/select", methods=["POST", "GET"])
 def incharge_pet_shop_login_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        certificate_no, password = session["incharge_pet_shop_login_credential"]
         connection = psycopg2.connect(
-            user=certificate_no, password=password, database="project"
+            user=user_name, password=user_password, database="project"
         )
         cur = connection.cursor()
 
@@ -1205,7 +1307,7 @@ def incharge_pet_shop_login_insert():
         city = request.form.get("city")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1217,6 +1319,7 @@ def incharge_pet_shop_login_insert():
         connection.commit()
         connection.close()
 
+        flash("Successfully inserted")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -1235,7 +1338,7 @@ def incharge_pet_shop_login_update():
         city = request.form.get("city")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1263,6 +1366,7 @@ def incharge_pet_shop_login_update():
         connection.commit()
         connection.close()
 
+        flash("Successfully updated")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -1273,11 +1377,12 @@ def incharge_pet_shop_login_update():
 @app.route("/login/incharge/pet-shop/select-group", methods=["POST", "GET"])
 def incharge_pet_shop_login_select_group():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        id, password = session["incharge_pet_shop_login_credential"]
-        connection = psycopg2.connect(user=id, password=password, database="project")
+        connection = psycopg2.connect(
+            user=user_name, password=user_password, database="project"
+        )
         cur = connection.cursor()
 
         select_statement = f"""
@@ -1313,11 +1418,12 @@ def incharge_pet_shop_login_select_group():
 @app.route("/login/incharge/pet-shop/select-pet-care-products", methods=["POST", "GET"])
 def incharge_pet_shop_login_select_pet_care_products():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        id, password = session["incharge_pet_shop_login_credential"]
-        connection = psycopg2.connect(user=id, password=password, database="project")
+        connection = psycopg2.connect(
+            user=user_name, password=user_password, database="project"
+        )
         cur = connection.cursor()
 
         select_statement = f"""
@@ -1351,11 +1457,12 @@ def incharge_pet_shop_login_select_pet_care_products():
 )
 def incharge_pet_shop_login_select_people_adopted_with_more():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        id, password = session["incharge_pet_shop_login_credential"]
-        connection = psycopg2.connect(user=id, password=password, database="project")
+        connection = psycopg2.connect(
+            user=user_name, password=user_password, database="project"
+        )
         cur = connection.cursor()
 
         select_statement = f"""
@@ -1407,27 +1514,32 @@ def incharge_zoo_login():
         user_name = "postgres"
         user_password = "2020"
 
-        session["incharge_zoo_login_credential"] = (user_name, user_password)
-
         connection = psycopg2.connect(
             user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
+
+        list_of_users_statement = f"SELECT login_zoo_zoos_id FROM LOGIN_ZOO"
+        cur.execute(list_of_users_statement)
+
+        list_of_users = cur.fetchall()
+        list_of_users = [i[0] for i in list_of_users]
+
+        if str(entered_id) not in list_of_users:
+            flash("Invalid credentials")
+            return redirect(url_for("incharge_zoo_login"))
+
         select_statement = f"SELECT login_zoo_password FROM LOGIN_ZOO WHERE login_zoo_zoos_id = '{entered_id}'"
         cur.execute(select_statement)
 
         actual_password = cur.fetchone()[0]
 
         if entered_password == actual_password:
-            session["incharge_zoo_credential"] = (
-                user_name,
-                user_password,
-            )
-            print("Successfully logged in")
+            flash("Successfully logged in")
             return redirect(url_for("incharge_zoo_login_operation"))
         else:
-            print("Incorrect password entered. Try again")
+            flash("Invalid credentials")
             return redirect(url_for("incharge_zoo_login"))
 
     else:
@@ -1453,11 +1565,12 @@ def incharge_zoo_login_operation():
 @app.route("/login/incharge/zoo/select", methods=["POST", "GET"])
 def incharge_zoo_login_select():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        id, password = session["incharge_zoo_login_credential"]
-        connection = psycopg2.connect(user=id, password=password, database="project")
+        connection = psycopg2.connect(
+            user=user_name, password=user_password, database="project"
+        )
         cur = connection.cursor()
 
         select_statement = f"SELECT * FROM ZOOS"
@@ -1489,7 +1602,7 @@ def incharge_zoo_login_insert():
         visiting_hours = request.form.get("visitingHours")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1500,6 +1613,8 @@ def incharge_zoo_login_insert():
         cur.close()
         connection.commit()
         connection.close()
+
+        flash("Successfully inserted")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -1518,7 +1633,7 @@ def incharge_zoo_login_update():
         visiting_hours = request.form.get("visitingHours")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1546,6 +1661,7 @@ def incharge_zoo_login_update():
         connection.commit()
         connection.close()
 
+        flash("Successfully updated")
         return redirect(url_for("home"))
     else:
         return render_template(
@@ -1556,11 +1672,12 @@ def incharge_zoo_login_update():
 @app.route("/login/incharge/zoo/select-group", methods=["POST", "GET"])
 def incharge_zoo_login_select_group():
     if request.method == "POST":
-        print("Logged out")
+        flash("Logged out")
         return redirect(url_for("home"))
     else:
-        id, password = session["incharge_zoo_login_credential"]
-        connection = psycopg2.connect(user=id, password=password, database="project")
+        connection = psycopg2.connect(
+            user=user_name, password=user_password, database="project"
+        )
         cur = connection.cursor()
 
         select_statement = f"""
@@ -1619,7 +1736,7 @@ def general_public_signup():
         password = request.form.get("password")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1644,6 +1761,7 @@ def general_public_signup():
             server.login(sender_email, sender_decrypted_password)
             server.sendmail(sender_email, receiver_email, message)
 
+        flash("Successfully signed up! Check out the welcome mail")
         return redirect(url_for("home"))
     else:
         return render_template("signup/general_public.html")
@@ -1661,7 +1779,7 @@ def doctor_signup():
         password = request.form.get("password")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1675,6 +1793,7 @@ def doctor_signup():
         cur.close()
         connection.commit()
         connection.close()
+        flash("Successfully signed up")
         return redirect(url_for("home"))
     else:
         return render_template("signup/doctor.html")
@@ -1706,7 +1825,7 @@ def animal_shelter_signup():
         password = request.form.get("password")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1721,6 +1840,7 @@ def animal_shelter_signup():
         connection.commit()
         connection.close()
 
+        flash("Successfully signed up")
         return redirect(url_for("home"))
     else:
         return render_template("signup/animal_shelter.html")
@@ -1738,7 +1858,7 @@ def pet_shop_signup():
         password = request.form.get("password")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1753,6 +1873,7 @@ def pet_shop_signup():
         connection.commit()
         connection.close()
 
+        flash("Successfully signed up")
         return redirect(url_for("home"))
     else:
         return render_template("signup/pet_shop.html")
@@ -1770,7 +1891,7 @@ def zoo_signup():
         password = request.form.get("password")
 
         connection = psycopg2.connect(
-            user="postgres", password="2020", database="project"
+            user=user_name, password=user_password, database="project"
         )
 
         cur = connection.cursor()
@@ -1787,6 +1908,7 @@ def zoo_signup():
         connection.commit()
         connection.close()
 
+        flash("Successfully signed up")
         return redirect(url_for("home"))
     else:
         return render_template("signup/zoo.html")

@@ -4,8 +4,9 @@
 
 <style>
     .center {
-        position: absolute;
-        margin-left: 500px;
+        margin-left: 0px;
+        margin-right: 0px;
+        position: relative;
     }
 
     .table_style {
@@ -13,7 +14,7 @@
         margin-left: 20px;
         margin-top: 10px;
         margin-bottom: 20px;
-        width: 1400px;
+        width: 900px;
         height: 40px;
     }
 
@@ -21,8 +22,8 @@
         border: 2px solid var(--nord0);
         border-color: var(--nord0);
         background-color: var(--nord9);
-        width: 350px;
-        height: 80px;
+        width: 900px;
+        height: 40px;
     }
 
     .td_style_1 {
@@ -45,35 +46,26 @@
         font-weight: bold;
         text-align: center;
     }
-
-    .td_style_3 {
-        border: 2px solid var(--nord0);
-        border-color: var(--nord0);
-        background-color: var(--nord0);
-        text-align: center;
-        height: 40px
-    }
-
-    .span_style_3 {
-        border: none;
-        text-decoration: none;
-        color: var(--nord1);
-        border-color: var(--nord1);
-        background-color: var(--nord7);
-    }
-
-    .b_class {
-        color: var(--merc3);
-    }
-
-    hr {
-        color: var(--nord0);
-    }
 </style>
 
 <div id="heading">
-    <h1>PET SHOP LOGIN</h1>
+    <h1>GENERAL PUBLIC SESSION</h1>
 </div>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for msg in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align: center;">
+    {{msg}}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<script type="text/javascript">
+    setTimeout(function () {
+        $('.alert').alert('close');
+    }, 400);
+</script>
 
 <div class="my-md-3 container">
     <div class="row">
@@ -87,28 +79,52 @@
                     <br />
                     <table>
                         <tr>
-                            {% for heading in colnames %}
                             <td class="td_style_2">
-                                {{heading[:].upper()}}
+                                {{colnames[1][7:-5].upper()}}
+                            </td>
+                            {% for heading in colnames[2:] %}
+                            <td class="td_style_2">
+                                {{heading[7:].upper()}}
                             </td>
                             {% endfor %}
+                            <td class="td_style_2">
+                                {{"ACTION"}}
+                            </td>
                         </tr>
                         {% for attributes in results %}
                         <tr>
-                            {% for sub_attributes in attributes %}
-                            <td class="td_style_3">
-                                <a href={{ sub_attributes }} class="list-group-item list-group-item-action span_style_3"
-                                    onmouseover="change_color(this)"
-                                    onmouseout="restore_color(this)"><b>{{"Link"}}</b></a>
+                            <td class="td_style_1">
+                                <img src={{attributes[1]}} width="144" , height="120"
+                                    style="border: 5px solid; border-color: var(--nord8);">
+                            </td>
+                            {% for sub_attributes in attributes[2:] %}
+                            <td class="td_style_1">
+                                {{sub_attributes}}
                             </td>
                             {% endfor %}
+                            <td class="td_style_1">
+                                <form action="#" method="post">
+                                    <div class="text-center">
+                                        <button type="submit" name="proceed-submit" value={{attributes[0]}}
+                                            class="btn m-1 btn-dark btn-sm" style="
+                                            font-weight: bold;
+                                            background-color: var(--nord1);
+                                            border-color: var(--nord1);
+                                            color: var(--nord7);
+                                            " onmouseover="restore_color(this)" onmouseout="change_color(this)">
+                                            Sponsor
+                                        </button>
+                                    </div>
+                                </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </table>
                     <br />
                     <form action="#" method="post">
                         <div class="text-center">
-                            <button type="submit" class="btn m-1 btn-dark btn-sm center" style="
+                            <button type="submit" name="proceed-submit" value="logout" class="btn m-1 btn-dark btn-sm"
+                                style="
                                 font-weight: bold;
                                 background-color: var(--nord7);
                                 border-color: var(--nord7);
