@@ -10,23 +10,8 @@
 </style>
 
 <div id="heading">
-    <h1>ZOO LOGIN</h1>
+    <h1>DOCTOR LOGIN</h1>
 </div>
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for msg in messages %}
-<div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align: center;">
-    {{msg}}
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-<script type="text/javascript">
-    setTimeout(function () {
-        $('.alert').alert('close');
-    }, 400);
-</script>
 
 <div class="my-md-3 container">
     <div class="row">
@@ -45,27 +30,18 @@
                             </label>
                             <br />
                             <form method="post">
-                                <input type="radio" name="name" value="select" />
+                                <input type="radio" name="name" value="results" />
                                 <label>
-                                    <h6>Select</h6>
+                                    <h6>Results</h6>
                                 </label>
                                 <br />
                                 <br />
-
-                                <input type="radio" name="name" value="update" />
+                                <input type="radio" name="name" value="selectPeople" />
                                 <label>
-                                    <h6>Update</h6>
+                                    <h6>People</h6>
                                 </label>
                                 <br />
                                 <br />
-
-                                <input type="radio" name="name" value="insert" />
-                                <label>
-                                    <h6>Insert</h6>
-                                </label>
-                                <br />
-                                <br />
-
                                 <button type="submit" class="btn m-1 btn-dark btn-sm" style="
                                 font-weight: bold;
                                 background-color: var(--nord7);
@@ -101,3 +77,4 @@
     </div>
 </div>
 {% endblock %}
+

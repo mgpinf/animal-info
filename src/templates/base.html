@@ -114,6 +114,14 @@
             position: relative;
             margin-left: 600px;
         }
+
+        #particles-js {
+            top: 0;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        }
     </style>
 
     <div>
@@ -135,7 +143,36 @@
             </div>
         </nav>
     </div>
+    <div id="particles-js">
+    </div>
     {% block content %} {% endblock %}
+    <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1561436720/particles.js">
+    </script>
+    <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1561436735/app.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            var count_particles, stats, update;
+            stats = new Stats;
+            stats.setMode(0);
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+            document.body.appendChild(stats.domElement);
+            count_particles = document.querySelector('.js-count-particles');
+            update = function () {
+                stats.begin();
+                stats.end();
+                if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+                    count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+                }
+                requestAnimationFrame(update);
+            };
+            requestAnimationFrame(update);
+        });
+    </script>
+
 </body>
 
 </html>

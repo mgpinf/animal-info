@@ -512,6 +512,7 @@ VALUES
         'F',
         40.00,
         6,
+        3000.00,
         'https://a-love-of-rottweilers.com/wp-content/uploads/2021/07/Breed-Std-@canilalfgar-768x963.jpg'
     ),
     (
@@ -525,6 +526,7 @@ VALUES
         'M',
         45.00,
         7,
+        4000.00,
         'https://www.akc.org/wp-content/uploads/2017/11/Carolina-Dog-standing-outdoors.jpg'
     ),
     (
@@ -538,6 +540,7 @@ VALUES
         'F',
         25.00,
         3,
+        4000.00,
         'https://zamroo.s3.ap-south-1.amazonaws.com/images/product-images/pets/pets-for-adoption/medium/20210716075836-79308.jpg'
     ),
     (
@@ -551,6 +554,7 @@ VALUES
         'M',
         20.00,
         4,
+        5000.00,
         'https://english.mathrubhumi.com/polopoly_fs/1.5281277.1608009135!/image/image.jpg_gen/derivatives/landscape_894_577/image.jpg'
     ),
     (
@@ -564,6 +568,7 @@ VALUES
         'F',
         4000.00,
         45,
+        NULL,
         'https://nationalzoo.si.edu/sites/default/files/styles/768x384_scale_and_crop/public/spike-elephant-outside-20180628-509sb.jpg?itok=a3RpRz6Y&timestamp=1539268156'
     ),
     (
@@ -577,6 +582,7 @@ VALUES
         'F',
         10.00,
         1,
+        7500.00,
         'https://excitedcats.com/wp-content/uploads/2020/09/rsz_shutterstock_1423617566.webp'
     ),
     (
@@ -590,6 +596,7 @@ VALUES
         'F',
         110.00,
         9,
+        NULL,
         'https://animalcorner.org/wp-content/img/bengal1.jpg'
     ),
     (
@@ -603,6 +610,7 @@ VALUES
         'F',
         425.00,
         18,
+        NULL,
         'https://i.pinimg.com/736x/65/18/0e/65180ea0440f90b93466d83ff42d9887--old-paintings-marwari-horses.jpg'
     ),
     (
@@ -616,6 +624,7 @@ VALUES
         'F',
         4.00,
         1,
+        NULL,
         'https://media.istockphoto.com/photos/closeup-portrait-of-a-great-hornbil-great-indian-hornbill-or-great-picture-id996496474?k=20&m=996496474&s=612x612&w=0&h=ofmrS-CnBrdqQFj4_kvcnATrLRLpoKxrimNz1F987xk='
     ),
     (
@@ -629,6 +638,7 @@ VALUES
         'M',
         2300.00,
         25,
+        NULL,
         'https://image.shutterstock.com/image-photo/indian-rhinoceros-unicornis-called-greater-260nw-1895454127.jpg'
     ),
     (
@@ -642,6 +652,7 @@ VALUES
         'F',
         140.00,
         9,
+        NULL,
         'https://texasislife.com/wp-content/uploads/2021/02/tiger-standing.jpg'
     ),
     (
@@ -655,6 +666,7 @@ VALUES
         'M',
         160.00,
         12,
+        NULL,
         'https://tigertribe.net/wp-content/uploads/2012/04/A-captive-Southwest-African-Lion-or-Katanga-lion-at-Leipzig-Zoo-Attribution-Appaloosa-CC-BY-SA-3.0-768x602.jpg'
     ),
     (
@@ -668,6 +680,7 @@ VALUES
         'M',
         10.00,
         1,
+        NULL,
         'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Lissemys_punctata_andersoni.jpg/220px-Lissemys_punctata_andersoni.jpg'
     ),
     (
@@ -681,6 +694,7 @@ VALUES
         'F',
         1900.00,
         23,
+        NULL,
         'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Mannetjes_masaigiraffe_in_de_Serengeti%2C_Tanzania%2C_-12_januari_2013_a.jpg/220px-Mannetjes_masaigiraffe_in_de_Serengeti%2C_Tanzania%2C_-12_januari_2013_a.jpg'
     ),
     (
@@ -694,6 +708,7 @@ VALUES
         'F',
         3700.00,
         42,
+        NULL,
         'https://media.istockphoto.com/photos/asian-elephant-picture-id481026451?b=1&k=20&m=481026451&s=170667a&w=0&h=s2yIdZMjPY145B1PEPaSJC4ThgR-46gtVNFpQLrPiHQ='
     ),
     (
@@ -707,6 +722,7 @@ VALUES
         'F',
         1.60,
         25,
+        5000.00,
         'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/133940571/900'
     ),
     (
@@ -720,6 +736,7 @@ VALUES
         'M',
         5.44,
         8,
+        30000.00,
         'https://www.thesprucepets.com/thmb/di7SqIMxHLiTG0lWq6kLq013M5w=/1377x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/close-up-portrait-of-cat-901825714-5c8bf4a9c9e77c00010e967d.jpg'
     ),
     (
@@ -733,6 +750,7 @@ VALUES
         'F',
         8.2,
         13,
+        35000.00,
         'https://www.thesprucepets.com/thmb/J6O2euA7yCeyHz8BcPwZR1EO4Pk=/1080x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/41866908_1857951234295526_8668996549299071367_n-5c740bc3c9e77c000151bab2.jpg'
     ),
     (
@@ -746,6 +764,7 @@ VALUES
         'M',
         4.53,
         12,
+        18000.00,
         'https://vetstreet.brightspotcdn.com/dims4/default/303f54d/2147483647/thumbnail/645x380/quality/90/?url=https%3A%2F%2Fvetstreet-brightspot.s3.amazonaws.com%2F29%2Fb6%2Ff4a864144d09974dfe5bf0513e20%2FPersian-AP-V8HE5B-645sm3614.jpg'
     ),
     (
@@ -759,6 +778,7 @@ VALUES
         'F',
         7.50,
         14,
+        15000.00,
         'https://cattime.com/assets/uploads/2011/12/file_2676_persian-460x290-460x290.jpg'
     ),
     (
@@ -772,6 +792,7 @@ VALUES
         'M',
         0.12,
         11,
+        1000.00,
         'https://res.cloudinary.com/brooks-braithwaite/image/upload/v1554131096/exoticdirect_how_to_feed_your_cockatiel.png'
     ),
     (
@@ -785,6 +806,7 @@ VALUES
         'M',
         36.00,
         11,
+        12000.00,
         'https://c.pxhere.com/photos/66/9c/dog_labrador_head_close_pet_bright_coat-920619.jpg!d'
     ),
     (
@@ -798,6 +820,7 @@ VALUES
         'F',
         25.00,
         9,
+        18000.00,
         'https://media.istockphoto.com/photos/boxer-dog-in-animal-shelter-hoping-to-be-adopted-picture-id1006968918?s=612x612'
     ),
     (
@@ -811,6 +834,7 @@ VALUES
         'F',
         32.00,
         12,
+        15000.00,
         'https://thumbs.dreamstime.com/z/black-labrador-head-23003475.jpg'
     ),
     (
@@ -824,6 +848,7 @@ VALUES
         'M',
         30.00,
         9,
+        13000.00,
         'https://media1.popsugar-assets.com/files/thumbor/uiZBUSl5UNskxObP13Yd-3X30QY/fit-in/1024x1024/filters:format_auto-!!-:strip_icc-!!-/2019/12/18/763/n/46902966/4759e2855dfa5f7c857892.88399573_/i/what-kind-health-problems-do-golden-retrievers-have.jpg'
     ),
     (
@@ -837,6 +862,7 @@ VALUES
         'M',
         35.00,
         10,
+        14000.00,
         'https://regisregal.com/wp-content/uploads/2020/06/german-shepherd-rescue-dog-197x300.jpg'
     ),
     (
@@ -850,6 +876,7 @@ VALUES
         'F',
         24.00,
         9,
+        9000.00,
         'https://krupaanimalsbangalore.files.wordpress.com/2012/11/lab12.jpg?w=768'
     ),
     (
@@ -863,6 +890,7 @@ VALUES
         'F',
         3.00,
         4,
+        14000.00,
         'https://faqcats.com/wp-content/uploads/persian-cat-expensive-300x222.jpg.webp'
     ),
     (
@@ -876,6 +904,7 @@ VALUES
         'M',
         5.00,
         4,
+        16000.00,
         'https://thumbs.dreamstime.com/b/siamese-cat-8-months-old-sitting-14847638.jpg'
     ),
     (
@@ -889,6 +918,7 @@ VALUES
         'M',
         6.00,
         5,
+        22000.00,
         'https://www.newportharborvets.com/sites/default/files/styles/large/public/maine-coon-cat-breed-info.jpg?itok=3AJSveFR'
     ),
     (
@@ -902,6 +932,7 @@ VALUES
         'M',
         46.00,
         7,
+        15000.00,
         'https://a-love-of-rottweilers.com/wp-content/uploads/2021/07/Breed-Std-@canilalfgar-768x963.jpg'
     ),
     (
@@ -915,6 +946,7 @@ VALUES
         'F',
         48.00,
         12,
+        12000.00,
         'https://c.pxhere.com/photos/66/9c/dog_labrador_head_close_pet_bright_coat-920619.jpg!d'
     ),
     (
@@ -928,6 +960,7 @@ VALUES
         'M',
         27.00,
         4,
+        20000.00,
         'https://zamroo.s3.ap-south-1.amazonaws.com/images/product-images/pets/pets-for-adoption/medium/20210716075836-79308.jpg'
     ),
     (
@@ -941,6 +974,7 @@ VALUES
         'F',
         45.00,
         7,
+        22000.00,
         'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg'
     ),
     (
@@ -954,6 +988,7 @@ VALUES
         'M',
         33.00,
         9,
+        25000.00,
         'https://regisregal.com/wp-content/uploads/2020/06/german-shepherd-rescue-dog-197x300.jpg'
     ),
     (
@@ -967,6 +1002,7 @@ VALUES
         'F',
         24.00,
         5,
+        30000.00,
         'https://english.mathrubhumi.com/polopoly_fs/1.5281277.1608009135!/image/image.jpg_gen/derivatives/landscape_894_577/image.jpg'
     ),
     (
@@ -980,6 +1016,7 @@ VALUES
         'M',
         6.00,
         5,
+        33000.00,
         'https://faqcats.com/wp-content/uploads/persian-cat-expensive-300x222.jpg.webp'
     ),
     (
@@ -993,6 +1030,7 @@ VALUES
         'F',
         7.00,
         6,
+        35000.00,
         'https://thumbs.dreamstime.com/b/siamese-cat-8-months-old-sitting-14847638.jpg'
     ),
     (
@@ -1006,6 +1044,7 @@ VALUES
         'M',
         1.80,
         13,
+        5000.00,
         'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/133940571/900'
     ),
     (
@@ -1019,6 +1058,7 @@ VALUES
         'F',
         0.20,
         9,
+        6000.00,
         'https://res.cloudinary.com/brooks-braithwaite/image/upload/v1554131096/exoticdirect_how_to_feed_your_cockatiel.png'
     );
 

@@ -98,10 +98,6 @@ def general_public_login_operation():
         operation = request.form["name"]
         if operation == "select":
             return redirect(url_for("general_public_login_select"))
-        elif operation == "selectCriteria":
-            return redirect(url_for("general_public_login_select_criteria"))
-        elif operation == "selectAdopted":
-            return redirect(url_for("general_public_login_select_adopted"))
     else:
         return render_template("login/general_public/operation.html")
 
@@ -146,7 +142,7 @@ def general_public_login_select_for_adoption():
         cur = connection.cursor()
 
         # select_statement = f"SELECT * FROM ANIMAL WHERE animal_adopted = false and animal_from_zoos = false"
-        select_statement = f"SELECT A.animal_id,A.animal_image_link,A.animal_gender,A.animal_weight,A.animal_age,B.animal_type_breed,B.animal_type_type FROM ANIMAL AS A,ANIMAL_TYPE AS B WHERE A.animal_adopted = false AND A.animal_from_zoos = false AND A.animal_type_id = B.animal_type_id"
+        select_statement = f"SELECT A.animal_id,A.animal_image_link,A.animal_gender,A.animal_weight,A.animal_age,A.animal_price,B.animal_type_breed,B.animal_type_type FROM ANIMAL AS A,ANIMAL_TYPE AS B WHERE A.animal_adopted = false AND A.animal_from_zoos = false AND A.animal_type_id = B.animal_type_id"
         cur.execute(select_statement)
 
         results = cur.fetchall()
@@ -212,99 +208,6 @@ def general_public_login_select_for_sponsorship():
         )
 
 
-@app.route("/login/general-public/select-adopted", methods=["POST", "GET"])
-def general_public_login_select_adopted():
-    if request.method == "POST":
-        flash("Logged out")
-        return redirect(url_for("home"))
-    else:
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-        cur = connection.cursor()
-
-        select_statement = f"""
-        SELECT
-            animal_adopted_animal,
-            animal_adopted_adoption_date,
-            general_public_name
-        FROM
-            ANIMAL_ADOPTED,
-            GENERAL_PUBLIC
-        WHERE
-            animal_adopted_general_public_aadhar = general_public_aadhar_no
-            AND (
-                animal_adopted_pet_shop_certificate_no IS NOT NULL
-                OR animal_adopted_animal_shelter_certificate_no IS NOT NULL
-            )"""
-        cur.execute(select_statement)
-
-        results = cur.fetchall()
-
-        cur.execute(f"{select_statement} LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        return render_template(
-            "login/general_public/select_adopted.html",
-            colnames=colnames,
-            results=results,
-        )
-
-
-@app.route("/login/general-public/select-criteria", methods=["POST", "GET"])
-def general_public_login_select_criteria():
-    if request.method == "POST":
-        flash("Logged out")
-        return redirect(url_for("home"))
-    else:
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-        cur = connection.cursor()
-
-        select_statement = f"""
-        SELECT
-            general_public_name,
-            general_public_email
-        FROM
-            GENERAL_PUBLIC
-        WHERE
-            general_public_aadhar_no IN(
-                SELECT
-                    animal_adopted_general_public_aadhar
-                FROM
-                    ANIMAL_ADOPTED
-                WHERE
-                    animal_adopted_pet_shop_certificate_no IS NOT NULL
-                    AND animal_adopted_pet_shop_certificate_no IN(
-                        SELECT
-                            pet_shop_certificate_no
-                        FROM
-                            PET_SHOP
-                        WHERE
-                            pet_shop_no_of_pets > 50
-                    )
-            )"""
-        cur.execute(select_statement)
-
-        results = cur.fetchall()
-
-        cur.execute(f"{select_statement} LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        return render_template(
-            "login/general_public/select_criteria.html",
-            colnames=colnames,
-            results=results,
-        )
-
-
 @app.route("/login/doctor", methods=["POST", "GET"])
 def doctor_login():
     if request.method == "POST":
@@ -348,21 +251,25 @@ def doctor_login_table():
     if request.method == "POST":
         session["doctor_login_table"] = request.form["name"]
         if session["doctor_login_table"] == "animalDiseaseHistory":
-            return redirect(url_for("doctor_login_animal_disease_history_select"))
+            return redirect(url_for("doctor_login_animal_disease_history_operation"))
+        elif session["doctor_login_table"] == "queryAnswers":
+            return redirect(url_for("doctor_login_query_answers_operation"))
+        elif session["doctor_login_table"] == "animalTypeCare":
+            return redirect(url_for("doctor_login_animal_type_care_operation"))
         elif session["doctor_login_table"] == "doctors":
-            return redirect(url_for("doctor_login_doctor_details_select"))
-        elif session["doctor_login_table"] == "doctorGroups":
-            return redirect(url_for("doctor_login_doctor_groups_select"))
-        elif session["doctor_login_table"] == "peopleAdoptedAnimalsWithDiseaseHistory":
-            return redirect(
-                url_for("doctor_login_people_adopted_animals_with_disease_history")
-            )
-        elif session["doctor_login_table"] == "queriesNotAnswered":
-            return redirect(url_for("doctor_login_queries_not_answered"))
-        else:
-            return redirect(url_for("doctor_login_operation"))
+            return redirect(url_for("doctor_login_doctor_details_operation"))
     else:
         return render_template("login/doctor/table.html")
+
+
+@app.route("/login/doctor/operation", methods=["POST", "GET"])
+def doctor_login_doctor_details_operation():
+    if request.method == "POST":
+        operation = request.form["name"]
+        if operation == "select":
+            return redirect(url_for("doctor_login_doctor_details_select"))
+    else:
+        return render_template("login/doctor/doctor_details/operation.html")
 
 
 @app.route("/login/doctor/select/doctor-details", methods=["POST", "GET"])
@@ -379,6 +286,7 @@ def doctor_login_doctor_details_select():
         select_statement = f"""
         SELECT
             doctor_name,
+            doctor_email,
             doctor_hospital_address,
             doctor_domain
         FROM
@@ -399,45 +307,8 @@ def doctor_login_doctor_details_select():
         )
 
 
-@app.route("/login/doctor/select/doctor-groups", methods=["POST", "GET"])
-def doctor_login_doctor_groups_select():
-    if request.method == "POST":
-        flash("Logged out")
-        return redirect(url_for("home"))
-    else:
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-        cur = connection.cursor()
-
-        select_statement = f"""
-        SELECT
-            doctor_name,
-            doctor_email
-        FROM
-            DOCTORS
-        GROUP BY
-            doctor_name,
-            doctor_email,
-            doctor_domain"""
-
-        cur.execute(select_statement)
-
-        results = cur.fetchall()
-
-        cur.execute(f"{select_statement} LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        return render_template(
-            "login/doctor/doctor_groups.html", colnames=colnames, results=results
-        )
-
-
 @app.route(
-    "/login/doctor/select/adopted-animals-with-disease-history", methods=["POST", "GET"]
+    "/login/doctor/adopted-animals-with-disease-history/select", methods=["POST", "GET"]
 )
 def doctor_login_people_adopted_animals_with_disease_history():
     if request.method == "POST":
@@ -476,72 +347,64 @@ def doctor_login_people_adopted_animals_with_disease_history():
         connection.commit()
         connection.close()
         return render_template(
-            "login/doctor/people_adopted_animals_with_disease_history.html",
+            "login/doctor/animal_disease_history/select/people_adopted_animals_with_disease_history.html",
             colnames=colnames,
             results=results,
         )
 
 
-@app.route("/login/doctor/select/queries-not-answered", methods=["POST", "GET"])
-def doctor_login_queries_not_answered():
+@app.route("/login/doctor/animal-disease-history/operation", methods=["POST", "GET"])
+def doctor_login_animal_disease_history_operation():
     if request.method == "POST":
-        flash("Logged out")
-        return redirect(url_for("home"))
-    else:
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-        cur = connection.cursor()
-
-        select_statement = f"""
-        SELECT
-            queries_query_question
-        FROM
-            QUERIES
-        WHERE
-            queries_query_id NOT IN(
-                SELECT
-                    queries_query_answer_query_id
-                FROM
-                    QUERIES_QUERY_ANSWER
-            )"""
-
-        cur.execute(select_statement)
-
-        results = cur.fetchall()
-
-        cur.execute(f"{select_statement} LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        return render_template(
-            "login/doctor/queries_not_answered.html", colnames=colnames, results=results
-        )
-
-
-@app.route("/login/doctor/operation", methods=["POST", "GET"])
-def doctor_login_operation():
-    if request.method == "POST":
-        table = session["doctor_login_table"]
         operation = request.form["name"]
-        if table == "animalTypeCare":
-            if operation == "select":
-                return redirect(url_for("doctor_login_animal_type_care_select"))
-            elif operation == "update":
-                return redirect(url_for("doctor_login_animal_type_care_update"))
-            elif operation == "insert":
-                return redirect(url_for("doctor_login_animal_type_care_insert"))
-        elif table == "queryAnswers":
-            if operation == "select":
-                return redirect(url_for("doctor_login_query_answers_select"))
-            elif operation == "update":
-                return redirect(url_for("doctor_login_query_answers_update"))
-            elif operation == "insert":
-                return redirect(url_for("doctor_login_query_answers_insert"))
+        if operation == "select":
+            return redirect(url_for("doctor_login_animal_disease_history_select_table"))
     else:
-        return render_template("login/doctor/operation.html")
+        return render_template("login/doctor/animal_disease_history/operation.html")
+
+
+@app.route("/login/doctor/animal-disease-history/select/table", methods=["POST", "GET"])
+def doctor_login_animal_disease_history_select_table():
+    if request.method == "POST":
+        operation = request.form["name"]
+        if operation == "results":
+            return redirect(url_for("doctor_login_animal_disease_history_select"))
+        elif operation == "selectPeople":
+            return redirect(
+                url_for("doctor_login_people_adopted_animals_with_disease_history")
+            )
+    else:
+        return render_template("login/doctor/animal_disease_history/select/table.html")
+
+
+@app.route("/login/doctor/animal-type-care/operation", methods=["POST", "GET"])
+def doctor_login_animal_type_care_operation():
+    if request.method == "POST":
+        operation = request.form["name"]
+        if operation == "select":
+            return redirect(url_for("doctor_login_animal_type_care_select"))
+        elif operation == "update":
+            return redirect(url_for("doctor_login_animal_type_care_update"))
+        elif operation == "insert":
+            return redirect(url_for("doctor_login_animal_type_care_insert"))
+    else:
+        return render_template("login/doctor/animal_type_care/operation.html")
+
+
+@app.route("/login/doctor/query-answer/operation", methods=["POST", "GET"])
+def doctor_login_query_answers_operation():
+    if request.method == "POST":
+        operation = request.form["name"]
+        if operation == "select":
+            return redirect(url_for("doctor_login_query_answers_select"))
+        elif operation == "update":
+            return redirect(url_for("doctor_login_query_answers_update"))
+        elif operation == "insert":
+            return redirect(url_for("doctor_login_query_answers_insert"))
+        elif operation == "queriesNotAnswered":
+            return redirect(url_for("doctor_login_queries_not_answered"))
+    else:
+        return render_template("login/doctor/query_answer/operation.html")
 
 
 @app.route("/login/doctor/animal-disease-history/select", methods=["POST", "GET"])
@@ -567,139 +430,10 @@ def doctor_login_animal_disease_history_select():
         connection.commit()
         connection.close()
         return render_template(
-            "login/doctor/animal_disease_history/select.html",
+            "login/doctor/animal_disease_history/select/results.html",
             colnames=colnames,
             results=results,
         )
-
-
-@app.route("/login/doctor/animal-disease-history/insert", methods=["POST", "GET"])
-def doctor_login_animal_disease_history_insert():
-    if request.method == "POST":
-        animal_disease_name = request.form.get("animalDiseaseName")
-        animal_id = request.form.get("animalId")
-        animal_disease_no_of_months = int(request.form.get("animalDiseaseNoOfMonths"))
-        animal_disease_history_genral_public_aadhar = request.form.get(
-            "animalDiseaseHistoryGeneralPublicAadhar"
-        )
-        pet_shop_certificate_no = request.form.get("petShopCertificateNo")
-        animal_shelter_certificate_no = request.form.get("animalShelterCertificateNo")
-        zoo_id = request.form.get("zooId")
-
-        if animal_disease_history_genral_public_aadhar == "":
-            animal_disease_history_genral_public_aadhar = "NULL"
-        else:
-            animal_disease_history_genral_public_aadhar = (
-                "'" + animal_disease_history_genral_public_aadhar + "'"
-            )
-
-        if pet_shop_certificate_no == "":
-            pet_shop_certificate_no = "NULL"
-        else:
-            pet_shop_certificate_no = "'" + pet_shop_certificate_no + "'"
-
-        if animal_shelter_certificate_no == "":
-            animal_shelter_certificate_no = "NULL"
-        else:
-            animal_shelter_certificate_no = "'" + animal_shelter_certificate_no + "'"
-
-        if zoo_id == "":
-            zoo_id = "NULL"
-        else:
-            zoo_id = "'" + zoo_id + "'"
-
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-
-        cur = connection.cursor()
-
-        insert_statement = f"INSERT INTO ANIMAL_ANIMAL_DISEASE_HISTORY VALUES ('{animal_disease_name}', '{animal_id}', {animal_disease_no_of_months}, {animal_disease_history_genral_public_aadhar}, {pet_shop_certificate_no}, {animal_shelter_certificate_no}, {zoo_id})"
-        cur.execute(insert_statement)
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        flash("Successfully inserted")
-        return redirect(url_for("home"))
-    else:
-        return render_template("login/doctor/animal_disease_history/insert.html")
-
-
-@app.route("/login/doctor/animal-disease-history/update", methods=["POST", "GET"])
-def doctor_login_animal_disease_history_update():
-    if request.method == "POST":
-        animal_disease_name = request.form.get("animalDiseaseName")
-        animal_id = request.form.get("animalId")
-        animal_disease_no_of_months = request.form.get("animalDiseaseNoOfMonths")
-        animal_disease_history_genral_public_aadhar = request.form.get(
-            "animalDiseaseHistoryGeneralPublicAadhar"
-        )
-        pet_shop_certificate_no = request.form.get("petShopCertificateNo")
-        animal_shelter_certificate_no = request.form.get("animalShelterCertificateNo")
-        zoo_id = request.form.get("zooId")
-
-        if animal_disease_history_genral_public_aadhar == "":
-            animal_disease_history_genral_public_aadhar = "NULL"
-        else:
-            animal_disease_history_genral_public_aadhar = (
-                "'" + animal_disease_history_genral_public_aadhar + "'"
-            )
-
-        if pet_shop_certificate_no == "":
-            pet_shop_certificate_no = "NULL"
-        else:
-            pet_shop_certificate_no = "'" + pet_shop_certificate_no + "'"
-
-        if animal_shelter_certificate_no == "":
-            animal_shelter_certificate_no = "NULL"
-        else:
-            animal_shelter_certificate_no = "'" + animal_shelter_certificate_no + "'"
-
-        if zoo_id == "":
-            zoo_id = "NULL"
-        else:
-            zoo_id = "'" + zoo_id + "'"
-
-        values = (
-            animal_disease_name,
-            animal_id,
-            animal_disease_no_of_months,
-            animal_disease_history_genral_public_aadhar,
-            pet_shop_certificate_no,
-            animal_shelter_certificate_no,
-            zoo_id,
-        )
-
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-
-        cur = connection.cursor()
-        cur.execute("SELECT * FROM ANIMAL_ANIMAL_DISEASE_HISTORY LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        value_string = ""
-
-        for i in range(2):
-            value_string += f"{colnames[i]}='{values[i]}',"
-        for i in range(2, 6):
-            value_string += f"{colnames[i]}={values[i]},"
-        i += 1
-        value_string += (
-            f"{colnames[i]}={values[i]} WHERE {colnames[1]} = '{animal_id}';"
-        )
-
-        update_statement = f"UPDATE ANIMAL_ANIMAL_DISEASE_HISTORY SET {value_string}"
-        cur.execute(update_statement)
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        flash("Successfully updated")
-        return redirect(url_for("home"))
-    else:
-        return render_template("login/doctor/animal_disease_history/update.html")
 
 
 @app.route("/login/doctor/animal-type-care/select", methods=["POST", "GET"])
@@ -927,7 +661,7 @@ def incharge_animal_shelter_login():
         cur.execute(list_of_users_statement)
 
         list_of_users = cur.fetchall()
-        list_of_users = list(map(lambda x:x[0], list_of_users))
+        list_of_users = list(map(lambda x: x[0], list_of_users))
 
         if str(entered_certificate_no) not in list_of_users:
             flash("Invalid credentials")
@@ -953,25 +687,31 @@ def incharge_animal_shelter_login_operation():
     if request.method == "POST":
         operation = request.form["name"]
         if operation == "select":
-            return redirect(url_for("incharge_animal_shelter_login_select"))
+            return redirect(url_for("incharge_animal_shelter_login_select_table"))
         elif operation == "update":
             return redirect(url_for("incharge_animal_shelter_login_update"))
         elif operation == "insert":
             return redirect(url_for("incharge_animal_shelter_login_insert"))
-        elif operation == "selectGroup":
-            return redirect(url_for("incharge_animal_shelter_login_select_group"))
         elif operation == "peopleNotAdopted":
             return redirect(url_for("incharge_animal_shelter_login_people_not_adopted"))
-        elif operation == "peopleAdoptedAfter":
-            return redirect(
-                url_for("incharge_animal_shelter_login_people_adopted_after")
-            )
     else:
         return render_template("login/incharge/animal_shelter/operation.html")
 
 
-@app.route("/login/incharge/animal-shelter/select", methods=["POST", "GET"])
-def incharge_animal_shelter_login_select():
+@app.route("/login/incharge/animal-shelter/select/table", methods=["POST", "GET"])
+def incharge_animal_shelter_login_select_table():
+    if request.method == "POST":
+        operation = request.form["name"]
+        if operation == "results":
+            return redirect(url_for("incharge_animal_shelter_login_select_results"))
+        elif operation == "peopleNotAdopted":
+            return redirect(url_for("incharge_animal_shelter_login_people_not_adopted"))
+    else:
+        return render_template("login/incharge/animal_shelter/select/table.html")
+
+
+@app.route("/login/incharge/animal-shelter/select/results", methods=["POST", "GET"])
+def incharge_animal_shelter_login_select_results():
     if request.method == "POST":
         flash("Logged out")
         return redirect(url_for("home"))
@@ -993,7 +733,7 @@ def incharge_animal_shelter_login_select():
         connection.commit()
         connection.close()
         return render_template(
-            "login/incharge/animal_shelter/select.html",
+            "login/incharge/animal_shelter/select/results.html",
             colnames=colnames,
             results=results,
         )
@@ -1074,47 +814,6 @@ def incharge_animal_shelter_login_update():
     else:
         return render_template(
             "login/incharge/animal_shelter/update.html",
-        )
-
-
-@app.route("/login/incharge/animal-shelter/select-group", methods=["POST", "GET"])
-def incharge_animal_shelter_login_select_group():
-    if request.method == "POST":
-        flash("Logged out")
-        return redirect(url_for("home"))
-    else:
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-        cur = connection.cursor()
-
-        select_statement = f"""
-        SELECT
-            animal_id
-        FROM
-            ADOPT,
-            ANIMAL,
-            ANIMAL_SHELTER
-        WHERE
-            adopt_animal_shelter_certificate_no = animal_shelter_certificate_no
-            AND adopt_animal_id = animal_id
-        GROUP BY
-            animal_id,
-            animal_shelter_name"""
-        cur.execute(select_statement)
-
-        results = cur.fetchall()
-
-        cur.execute(f"{select_statement} LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        return render_template(
-            "login/incharge/animal_shelter/group.html",
-            colnames=colnames,
-            results=results,
         )
 
 
@@ -1250,21 +949,29 @@ def incharge_pet_shop_login_operation():
     if request.method == "POST":
         operation = request.form["name"]
         if operation == "select":
-            return redirect(url_for("incharge_pet_shop_login_select"))
+            return redirect(url_for("incharge_pet_shop_login_select_operation"))
         elif operation == "update":
             return redirect(url_for("incharge_pet_shop_login_update"))
         elif operation == "insert":
             return redirect(url_for("incharge_pet_shop_login_insert"))
-        elif operation == "selectGroup":
-            return redirect(url_for("incharge_pet_shop_login_select_group"))
-        elif operation == "selectPetCareProducts":
+    else:
+        return render_template("login/incharge/pet_shop/operation.html")
+
+
+@app.route("/login/incharge/pet-shop/select/table", methods=["POST", "GET"])
+def incharge_pet_shop_login_select_operation():
+    if request.method == "POST":
+        operation = request.form["name"]
+        if operation == "results":
+            return redirect(url_for("incharge_pet_shop_login_select"))
+        elif operation == "petCareProducts":
             return redirect(url_for("incharge_pet_shop_login_select_pet_care_products"))
-        elif operation == "selectPeopleAdoptedWithMore":
+        elif operation == "peopleAdoptedWithMore":
             return redirect(
                 url_for("incharge_pet_shop_login_select_people_adopted_with_more")
             )
     else:
-        return render_template("login/incharge/pet_shop/operation.html")
+        return render_template("login/incharge/pet_shop/select/table.html")
 
 
 @app.route("/login/incharge/pet-shop/select", methods=["POST", "GET"])
@@ -1290,7 +997,7 @@ def incharge_pet_shop_login_select():
         connection.commit()
         connection.close()
         return render_template(
-            "login/incharge/pet_shop/select.html",
+            "login/incharge/pet_shop/select/results.html",
             colnames=colnames,
             results=results,
         )
@@ -1374,47 +1081,6 @@ def incharge_pet_shop_login_update():
         )
 
 
-@app.route("/login/incharge/pet-shop/select-group", methods=["POST", "GET"])
-def incharge_pet_shop_login_select_group():
-    if request.method == "POST":
-        flash("Logged out")
-        return redirect(url_for("home"))
-    else:
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-        cur = connection.cursor()
-
-        select_statement = f"""
-        SELECT
-            animal_id
-        FROM
-            HOST,
-            ANIMAL,
-            PET_SHOP
-        WHERE
-            host_pet_shop_certificate_no = pet_shop_certificate_no
-            AND host_animal_id = animal_id
-        GROUP BY
-            animal_id,
-            pet_shop_name"""
-        cur.execute(select_statement)
-
-        results = cur.fetchall()
-
-        cur.execute(f"{select_statement} LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        return render_template(
-            "login/incharge/pet_shop/group.html",
-            colnames=colnames,
-            results=results,
-        )
-
-
 @app.route("/login/incharge/pet-shop/select-pet-care-products", methods=["POST", "GET"])
 def incharge_pet_shop_login_select_pet_care_products():
     if request.method == "POST":
@@ -1446,7 +1112,7 @@ def incharge_pet_shop_login_select_pet_care_products():
         connection.commit()
         connection.close()
         return render_template(
-            "login/incharge/pet_shop/pet_care_products.html",
+            "login/incharge/pet_shop/select/pet_care_products.html",
             colnames=colnames,
             results=results,
         )
@@ -1499,7 +1165,7 @@ def incharge_pet_shop_login_select_people_adopted_with_more():
         connection.commit()
         connection.close()
         return render_template(
-            "login/incharge/pet_shop/people_adopted_with_more.html",
+            "login/incharge/pet_shop/select/people_adopted_with_more.html",
             colnames=colnames,
             results=results,
         )
@@ -1556,8 +1222,6 @@ def incharge_zoo_login_operation():
             return redirect(url_for("incharge_zoo_login_update"))
         elif operation == "insert":
             return redirect(url_for("incharge_zoo_login_insert"))
-        elif operation == "selectGroup":
-            return redirect(url_for("incharge_zoo_login_select_group"))
     else:
         return render_template("login/incharge/zoo/operation.html")
 
@@ -1666,47 +1330,6 @@ def incharge_zoo_login_update():
     else:
         return render_template(
             "login/incharge/zoo/update.html",
-        )
-
-
-@app.route("/login/incharge/zoo/select-group", methods=["POST", "GET"])
-def incharge_zoo_login_select_group():
-    if request.method == "POST":
-        flash("Logged out")
-        return redirect(url_for("home"))
-    else:
-        connection = psycopg2.connect(
-            user=user_name, password=user_password, database="project"
-        )
-        cur = connection.cursor()
-
-        select_statement = f"""
-        SELECT
-            animal_id
-        FROM
-            SPONSOR,
-            ANIMAL,
-            ZOOS
-        WHERE
-            sponsor_zoos_id = zoos_id
-            AND sponsor_animal_id = animal_id
-        GROUP BY
-            animal_id,
-            zoos_name"""
-        cur.execute(select_statement)
-
-        results = cur.fetchall()
-
-        cur.execute(f"{select_statement} LIMIT 0")
-        colnames = [desc[0] for desc in cur.description]
-
-        cur.close()
-        connection.commit()
-        connection.close()
-        return render_template(
-            "login/incharge/zoo/group.html",
-            colnames=colnames,
-            results=results,
         )
 
 

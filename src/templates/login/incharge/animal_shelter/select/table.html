@@ -10,23 +10,8 @@
 </style>
 
 <div id="heading">
-    <h1>ZOO LOGIN</h1>
+    <h1>ANIMAL SHELTER LOGIN</h1>
 </div>
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for msg in messages %}
-<div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align: center;">
-    {{msg}}
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-<script type="text/javascript">
-    setTimeout(function () {
-        $('.alert').alert('close');
-    }, 400);
-</script>
 
 <div class="my-md-3 container">
     <div class="row">
@@ -41,27 +26,20 @@
                     <form action="#" method="post">
                         <div id="input-group-1" role="group" class="form-group">
                             <label id="input-group-1__BV_label_" for="input-1" class="d-block">
-                                <h4>Operation</h4>
+                                <h4>Table</h4>
                             </label>
                             <br />
                             <form method="post">
-                                <input type="radio" name="name" value="select" />
+                                <input type="radio" name="name" value="results" />
                                 <label>
-                                    <h6>Select</h6>
+                                    <h6>Results</h6>
                                 </label>
                                 <br />
                                 <br />
 
-                                <input type="radio" name="name" value="update" />
+                                <input type="radio" name="name" value="peopleNotAdopted" />
                                 <label>
-                                    <h6>Update</h6>
-                                </label>
-                                <br />
-                                <br />
-
-                                <input type="radio" name="name" value="insert" />
-                                <label>
-                                    <h6>Insert</h6>
+                                    <h6>People without adopted animals</h6>
                                 </label>
                                 <br />
                                 <br />

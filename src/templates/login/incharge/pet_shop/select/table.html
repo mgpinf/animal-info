@@ -10,7 +10,7 @@
 </style>
 
 <div id="heading">
-    <h1>ZOO LOGIN</h1>
+    <h1>PET SHOP LOGIN</h1>
 </div>
 
 {% with messages = get_flashed_messages() %}
@@ -41,31 +41,30 @@
                     <form action="#" method="post">
                         <div id="input-group-1" role="group" class="form-group">
                             <label id="input-group-1__BV_label_" for="input-1" class="d-block">
-                                <h4>Operation</h4>
+                                <h4>Table</h4>
                             </label>
                             <br />
                             <form method="post">
-                                <input type="radio" name="name" value="select" />
+                                <input type="radio" name="name" value="results" />
                                 <label>
-                                    <h6>Select</h6>
+                                    <h6>Results</h6>
                                 </label>
                                 <br />
                                 <br />
 
-                                <input type="radio" name="name" value="update" />
+                                <input type="radio" name="name" value="petCareProducts" />
                                 <label>
-                                    <h6>Update</h6>
+                                    <h6>Pet Care Products</h6>
                                 </label>
                                 <br />
                                 <br />
 
-                                <input type="radio" name="name" value="insert" />
+                                <input type="radio" name="name" value="peopleAdoptedWithMore" />
                                 <label>
-                                    <h6>Insert</h6>
+                                    <h6>People who have adopted animal from pet shop with more than 50 pets</h6>
                                 </label>
                                 <br />
                                 <br />
-
                                 <button type="submit" class="btn m-1 btn-dark btn-sm" style="
                                 font-weight: bold;
                                 background-color: var(--nord7);
