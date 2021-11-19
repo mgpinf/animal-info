@@ -30,17 +30,20 @@
                             </label>
                             <br />
                             <form method="post">
-                                <input type="radio" name="name" value="results" />
-                                <label>
-                                    <h6>Results</h6>
-                                </label>
-                                <br />
-                                <br />
-                                <input type="radio" name="name" value="selectPeople" />
-                                <label>
-                                    <h6>People</h6>
-                                </label>
-                                <br />
+                                <div class="card" style="width: 18rem; background-color: var(--nord0);">
+                                    <div class="card-body">
+                                        <input type="radio" name="name" value="results" />
+                                        <label>
+                                            <h6>Results</h6>
+                                        </label>
+                                        <br />
+                                        <br />
+                                        <input type="radio" name="name" value="selectPeople" />
+                                        <label>
+                                            <h6>People</h6>
+                                        </label>
+                                    </div>
+                                </div>
                                 <br />
                                 <button type="submit" class="btn m-1 btn-dark btn-sm" style="
                                 font-weight: bold;
@@ -77,4 +80,3 @@
     </div>
 </div>
 {% endblock %}
-

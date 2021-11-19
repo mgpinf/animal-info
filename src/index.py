@@ -141,7 +141,6 @@ def general_public_login_select_for_adoption():
         )
         cur = connection.cursor()
 
-        # select_statement = f"SELECT * FROM ANIMAL WHERE animal_adopted = false and animal_from_zoos = false"
         select_statement = f"SELECT A.animal_id,A.animal_image_link,A.animal_gender,A.animal_weight,A.animal_age,A.animal_price,B.animal_type_breed,B.animal_type_type FROM ANIMAL AS A,ANIMAL_TYPE AS B WHERE A.animal_adopted = false AND A.animal_from_zoos = false AND A.animal_type_id = B.animal_type_id"
         cur.execute(select_statement)
 
@@ -168,19 +167,7 @@ def general_public_login_select_for_sponsorship():
             flash("Logged out")
             return redirect(url_for("home"))
         else:
-            animal_id = request.form["proceed-submit"]
-            insert_statement = f"UPDATE ANIMAL SET animal_adopted = true WHERE animal_id ='{animal_id}'"
-
-            connection = psycopg2.connect(
-                user=user_name, password=user_password, database="project"
-            )
-            cur = connection.cursor()
-            cur.execute(insert_statement)
-            cur.close()
-            connection.commit()
-            connection.close()
-
-            # flash("Successfully sponsored")
+            flash("Successfully sponsored")
             return redirect(url_for("general_public_login_select_for_sponsorship"))
     else:
         connection = psycopg2.connect(
@@ -188,7 +175,6 @@ def general_public_login_select_for_sponsorship():
         )
         cur = connection.cursor()
 
-        # select_statement = f"SELECT * FROM ANIMAL WHERE animal_adopted = false and animal_from_zoos = true"
         select_statement = f"SELECT A.animal_id,A.animal_image_link,A.animal_gender,A.animal_weight,A.animal_age,B.animal_type_breed,B.animal_type_type FROM ANIMAL AS A,ANIMAL_TYPE AS B WHERE A.animal_adopted = false AND A.animal_from_zoos = true AND A.animal_type_id = B.animal_type_id"
         cur.execute(select_statement)
 
@@ -1094,7 +1080,9 @@ def incharge_pet_shop_login_select_pet_care_products():
 
         select_statement = f"""
         SELECT
-            pet_care_products_link
+            pet_care_products_link,
+            pet_care_products_animal_type_id,
+            pet_care_products_link_website
         FROM
             PET_CARE_PRODUCTS
         GROUP BY

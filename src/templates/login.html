@@ -18,29 +18,35 @@
                 <div class="center">
                     <form action="#" method="post">
                         <div id="input-group-1" role="group" class="form-group">
-                            <label id="input-group-1__BV_label_" for="input-1" class="d-block">
-                                <h4>LOGIN AS:</h4>
-                            </label>
-                            <br />
-                            <form>
-                                <input type="radio" name="name" value="generalPublic" />
-                                <label>
-                                    <h6>General Public</h6>
+                            <div id="input-group-1" role="group" class="form-group">
+                                <label id="input-group-1__BV_label_" for="input-1" class="d-block">
+                                    <h4>LOGIN AS</h4>
                                 </label>
                                 <br />
-                                <br />
+                                <div class="card" style="width: 18rem; background-color: var(--nord0);">
+                                    <div class="card-body">
+                                        <form>
+                                            <input type="radio" name="name" value="generalPublic" />
+                                            <label>
+                                                <h6>General Public</h6>
+                                            </label>
+                                            <br />
+                                            <br />
 
-                                <input type="radio" name="name" value="doctor" />
-                                <label>
-                                    <h6>Doctor</h6>
-                                </label>
-                                <br />
-                                <br />
+                                            <input type="radio" name="name" value="doctor" />
+                                            <label>
+                                                <h6>Doctor</h6>
+                                            </label>
+                                            <br />
+                                            <br />
 
-                                <input type="radio" name="name" value="incharge" />
-                                <label>
-                                    <h6>Incharge</h6>
-                                </label><br /><br />
+                                            <input type="radio" name="name" value="incharge" />
+                                            <label>
+                                                <h6>Incharge</h6>
+                                            </label>
+                                    </div>
+                                </div>
+                                <br />
                                 <button type="submit" class="btn m-1 btn-dark btn-sm" value="phone_no" style="
                                 font-weight: bold;
                                 background-color: var(--nord7);
@@ -67,12 +73,12 @@
                                         current_element.style["color"] = nord1
                                     }
                                 </script>
-                            </form>
-                        </div>
                     </form>
                 </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
