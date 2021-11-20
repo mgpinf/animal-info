@@ -36,11 +36,14 @@
                             <td class="td_style_2">
                                 {{colnames[1][7:-5].upper()}}
                             </td>
-                            {% for heading in colnames[2:] %}
+                            {% for heading in colnames[2:7] %}
                             <td class="td_style_2">
                                 {{heading[7:].upper()}}
                             </td>
                             {% endfor %}
+                            <td class="td_style_2">
+                                {{colnames[7].upper()}}
+                            </td>
                             <td class="td_style_2">
                                 {{"ACTION"}}
                             </td>

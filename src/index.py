@@ -1,9 +1,9 @@
+from flask import Flask, redirect, url_for, render_template, request, session
 from flask.helpers import flash
 import psycopg2
 import smtplib, ssl
-from flask import Flask, redirect, url_for, render_template, request, session
 
-port = 465  # for SSL
+port = 465  # for smtps SSL encryption
 smtp_server = "smtp.gmail.com"
 sender_encrypted_email = "l`mhrgfnvc16?fl`hk-bnl"
 sender_encrypted_password = "l`mhrg/8?odrT"
@@ -13,6 +13,7 @@ user_name = "postgres"
 user_password = "2020"
 
 
+# decryption function
 def str_inc(string):
     res_string = ""
     for i in string:

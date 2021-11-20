@@ -18,7 +18,15 @@
                     <br />
                     <table class="center">
                         <tr>
-                            {% for heading in colnames %}
+                            {% for heading in colnames[:2] %}
+                            <td class="td_style_2">
+                                {{heading[14:].upper()}}
+                            </td>
+                            {% endfor %}
+                            <td class="td_style_2">
+                                {{colnames[2].upper()}}
+                            </td>
+                            {% for heading in colnames[3:] %}
                             <td class="td_style_2">
                                 {{heading[14:].upper()}}
                             </td>
