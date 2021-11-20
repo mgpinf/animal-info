@@ -44,6 +44,7 @@ CREATE TABLE DOCTORS (
 
 CREATE TABLE PET_CARE_PRODUCTS (
   pet_care_products_id VARCHAR(20) NOT NULL,
+  pet_care_products_product_type VARCHAR(25) NOT NULL,
   pet_care_products_link VARCHAR(1000) NOT NULL,
   pet_care_products_link_website VARCHAR(30) NOT NULL,
   pet_care_products_animal_type_id VARCHAR(50) NOT NULL,
@@ -73,6 +74,9 @@ CREATE TABLE ZOOS (
 
 CREATE TABLE ANIMAL (
   animal_id VARCHAR(50) NOT NULL,
+  animal_zoos_id VARCHAR(4) ,
+  animal_pet_shop_certificate_no VARCHAR(4) ,
+  animal_animal_shelter_certificate_no VARCHAR(4) ,
   animal_adopted BOOL NOT NULL,
   animal_type_id VARCHAR(50) NOT NULL,
   animal_from_pet_shop BOOL NOT NULL,
@@ -82,22 +86,25 @@ CREATE TABLE ANIMAL (
   animal_gender CHAR(1) NOT NULL,
   animal_weight FLOAT NOT NULL,
   animal_age INT NOT NULL,
-  animal_price FLOAT,
+  animal_price INT,
   animal_image_link varchar(5000) NOT NULL,
   PRIMARY KEY(animal_id),
-  FOREIGN KEY(animal_type_id) REFERENCES ANIMAL_TYPE(animal_type_id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY(animal_type_id) REFERENCES ANIMAL_TYPE(animal_type_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (animal_zoos_id) REFERENCES ZOOS(zoos_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (animal_animal_shelter_certificate_no) REFERENCES ANIMAL_SHELTER(animal_shelter_certificate_no) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (animal_pet_shop_certificate_no) REFERENCES PET_SHOP(pet_shop_certificate_no) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE ANIMAL_ADOPTED (
   animal_adopted_animal_id VARCHAR(50) NOT NULL,
   animal_adopted_animal VARCHAR(50) NOT NULL,
-  animal_adopted_zoos_id VARCHAR(50),
+  animal_adopted_zoos_id VARCHAR(4) ,
   animal_adopted_adoption_date DATE DEFAULT('01-01-2000'),
-  animal_adopted_sponsor_amount FLOAT DEFAULT(0.0),
+  animal_adopted_sponsor_amount FLOAT  DEFAULT(0.0),
   animal_adopted_price_from_shop FLOAT DEFAULT(0.0),
-  animal_adopted_general_public_aadhar VARCHAR(12),
-  animal_adopted_pet_shop_certificate_no VARCHAR(50),
-  animal_adopted_animal_shelter_certificate_no VARCHAR(50),
+  animal_adopted_general_public_aadhar VARCHAR(12) DEFAULT('NOT ADOPTED'),
+  animal_adopted_pet_shop_certificate_no VARCHAR(4) ,
+  animal_adopted_animal_shelter_certificate_no VARCHAR(4) ,
   PRIMARY KEY (animal_adopted_animal_id),
   FOREIGN KEY (animal_adopted_general_public_aadhar) REFERENCES GENERAL_PUBLIC(general_public_aadhar_no) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (animal_adopted_pet_shop_certificate_no) REFERENCES PET_SHOP(pet_shop_certificate_no) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -119,7 +126,7 @@ CREATE TABLE ADOPT (
   adopt_id VARCHAR(50) NOT NULL,
   adopt_animal_id VARCHAR(20) NOT NULL,
   adopt_animal_shelter_certificate_no VARCHAR(50) NOT NULL,
-  FOREIGN KEY (adopt_animal_shelter_certificate_no) REFERENCES ANIMAL_SHELTER(animal_shelter_certificate_no) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (adopt_animal_shelter_certificate_no) REFERENCES    ANIMAL_SHELTER(animal_shelter_certificate_no) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (adopt_animal_id) REFERENCES ANIMAL(animal_id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (adopt_id)
 );
@@ -138,9 +145,9 @@ CREATE TABLE ANIMAL_ANIMAL_DISEASE_HISTORY (
   animal_animal_disease_history_animal_id VARCHAR(20) NOT NULL,
   animal_animal_disease_history_animal_disease_no_of_months INT NOT NULL,
   animal_animal_disease_history_general_public_aadhar_no CHAR(12) DEFAULT('Not Adopted'),
-  animal_animal_disease_history_pet_shop_certificate_no VARCHAR(50) DEFAULT(NULL),
-  animal_animal_disease_history_animal_shelter_certificate_no VARCHAR(50) DEFAULT(NULL),
-  animal_animal_disease_history_zoos_id VARCHAR(20) DEFAULT(NULL),
+  animal_animal_disease_history_pet_shop_certificate_no VARCHAR(50)  DEFAULT(NULL),
+  animal_animal_disease_history_animal_shelter_certificate_no VARCHAR(50)  DEFAULT(NULL),
+  animal_animal_disease_history_zoos_id VARCHAR(20)  DEFAULT(NULL),
   PRIMARY KEY (
     animal_animal_disease_history_animal_disease_name,
     animal_animal_disease_history_animal_id
@@ -160,7 +167,7 @@ CREATE TABLE ANIMAL_ANIMAL_DISEASE_HISTORY (
 
 CREATE TABLE ANIMAL_TYPE_ANIMAL_TYPE_CARE (
   animal_type_animal_type_care_id VARCHAR(50) NOT NULL,
-  animal_type_animal_type_care_animal_type_care TEXT NOT NULL,
+ animal_type_animal_type_care_animal_type_care TEXT NOT NULL,
   animal_type_animal_type_care_animal_type_breed VARCHAR(20) NOT NULL,
   PRIMARY KEY (animal_type_animal_type_care_id),
   FOREIGN KEY (animal_type_animal_type_care_animal_type_breed) REFERENCES ANIMAL_TYPE(animal_type_breed) ON UPDATE CASCADE ON DELETE CASCADE

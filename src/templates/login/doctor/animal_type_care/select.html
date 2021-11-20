@@ -2,52 +2,6 @@
 {% block title %}animal-info{% endblock %}
 {% block content %}
 
-<style>
-    .center {
-        margin-left: 300px;
-        margin-right: 300px;
-        position: relative;
-    }
-
-    .table_style {
-        border: 2px solid var(--nord0);
-        margin-left: 20px;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        width: 900px;
-        height: 40px;
-    }
-
-    .tr_style {
-        border: 2px solid var(--nord0);
-        border-color: var(--nord0);
-        background-color: var(--nord9);
-        width: 900px;
-        height: 40px;
-    }
-
-    .td_style_1 {
-        border: 3px solid var(--nord0);
-        border-color: var(--nord0);
-        background-color: var(--nord8);
-        width: 350px;
-        height: 40px;
-        font-weight: 500;
-        text-align: center;
-    }
-
-    .td_style_2 {
-        border: 3px solid var(--nord0);
-        border-color: var(--nord0);
-        background-color: var(--nord14);
-        color: var(--nord1);
-        text-align: center;
-        height: 40px;
-        font-weight: bold;
-        text-align: center;
-    }
-</style>
-
 <div id="heading">
     <h1>DOCTOR SESSION</h1>
 </div>
@@ -57,12 +11,12 @@
         <div class="container col-12">
             <div>
                 <hr>
-                <div class="center">
+                <div>
                     <label id="input-group-1__BV_label_" for="input-1" class="d-block">
                         <h4>RESULTS</h4>
                     </label>
                     <br />
-                    <table>
+                    <table class="center">
                         <tr>
                             {% for heading in colnames %}
                             <td class="td_style_2">
@@ -93,24 +47,7 @@
                             </button>
                         </div>
                     </form>
-                    <script>
-                        let nord0 = "#2E3440";
-                        let nord1 = "#3B4252";
-                        let nord8 = "#88C0D0";
-                        let merc0 = "#212529";
-                        let merc1 = "#009688";
-                        let nord7 = "#8FBCBB";
-                        function change_color(current_element) {
-                            current_element.style["background-color"] = nord1
-                            current_element.style["border-color"] = nord1
-                            current_element.style["color"] = nord7
-                        }
-                        function restore_color(current_element) {
-                            current_element.style["background-color"] = nord7
-                            current_element.style["border-color"] = nord7
-                            current_element.style["color"] = nord1
-                        }
-                    </script>
+                    <script src="{{ url_for('static',filename='styles/custom.js') }}"></script>
                 </div>
             </div>
         </div>

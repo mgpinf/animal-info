@@ -1,0 +1,10 @@
+SELECT
+pet_care_products_link,
+pet_care_products_animal_type_id,
+pet_care_products_link_website
+FROM
+PET_CARE_PRODUCTS
+GROUP BY
+pet_care_products_link,
+pet_care_products_animal_type_id,
+pet_care_products_link_website;

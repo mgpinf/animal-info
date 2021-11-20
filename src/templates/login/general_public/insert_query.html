@@ -3,7 +3,7 @@
 {% block content %}
 
 <div id="heading">
-    <h1>DOCTOR LOGIN</h1>
+    <h1>GENERAL PUBLIC LOGIN</h1>
 </div>
 
 <div class="my-md-3 container">
@@ -16,32 +16,32 @@
                 <hr>
                 <hr>
                 <div>
-                    <form action="#" method="post">
+                    <form action="" method="post">
                         <div id="input-group-1" role="group" class="form-group">
                             <label id="input-group-1__BV_label_" for="input-1" class="d-block">
-                                <h4>Operation</h4>
+                                <h4>INSERT QUERY:</h4>
                             </label>
                             <br />
-                            <form method="post">
-                                <div class="card" style="background-color: var(--nord0);">
-                                    <div class="card-body">
-                                        <input type="radio" name="name" value="select" />
-                                        <label>
-                                            <h6>Select</h6>
-                                        </label>
+                            <div class="card" style="background-color: var(--nord0);">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Query</label>
+                                        <input type="text" class="form-control" placeholder="Enter query" name="query">
+                                        <br />
                                     </div>
                                 </div>
-                                <br />
-                                <button type="submit" class="btn m-1 btn-dark btn-sm" style="
+                            </div>
+                            <br />
+                            <button type="submit" class="btn m-1 btn-dark btn-sm" name="proceed-submit" value="proceed"
+                                style="
                                 font-weight: bold;
                                 background-color: var(--nord7);
                                 border-color: var(--nord7);
                                 color: var(--nord1);
                                 " onmouseover="change_color(this)" onmouseout="restore_color(this)">
-                                    Proceed
-                                </button>
-                                <script src="{{ url_for('static',filename='styles/custom.js') }}"></script>
-                            </form>
+                                Proceed
+                            </button>
+                            <script src="{{ url_for('static',filename='styles/custom.js') }}"></script>
                         </div>
                     </form>
                 </div>

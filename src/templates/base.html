@@ -21,109 +21,7 @@
 </head>
 
 <body>
-    <style>
-        :root {
-            --nord0: #2E3440;
-            --nord1: #3B4252;
-            --nord2: #434C5E;
-            --nord3: #4C566A;
-            --nord4: #D8DEE9;
-            --nord5: #E5E9F0;
-            --nord6: #ECEFF4;
-            --nord7: #8FBCBB;
-            --nord8: #88C0D0;
-            --nord9: #81A1C1;
-            --nord10: #5E81AC;
-            --nord11: #BF616A;
-            --nord12: #D08770;
-            --nord13: #EBCB8B;
-            --nord14: #A3BE8C;
-            --nord15: #B48EAD;
-            --merc0: #212529;
-            --merc1: #009688;
-            --merc3: #C0C0C0;
-        }
-
-        body {
-            background-color: var(--nord0);
-            background-image: url('https://img.jagranjosh.com/imported/images/E/Articles/Wildlife-threat.webp');
-            background-blend-mode: multiply;
-            opacity: 72%;
-            background-size: cover;
-            background-repeat: repeat;
-        }
-
-        .navbar_style {
-            background: linear-gradient(var(--merc1), var(--nord2) 50%, var(--nord1) 70%, var(--nord0));
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--nord14);
-            background: -webkit-linear-gradient(var(--nord14), var(--nord7));
-            background-clip: inherit;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: bold;
-        }
-
-        h4 {
-            font-weight: bold;
-            color: var(--nord6);
-        }
-
-        h5 {
-            color: var(--nord6);
-        }
-
-        h6 {
-            font-weight: bold;
-            color: var(--nord7);
-        }
-
-        hr {
-            color: var(--nord0);
-        }
-
-        button {
-            background-color: var(--nord8);
-            transition: all 0.2s ease-in-out;
-            margin: 20em;
-            box-shadow: 0 0 30px #009688;
-        }
-
-        #heading {
-            background: linear-gradient(var(--nord0), var(--merc0) 60%, var(--nord0))
-        }
-
-        hr {
-            color: var(--nord0);
-        }
-
-        small {
-            font-weight: bold;
-            color: var(--nord9);
-        }
-
-        label {
-            font-weight: bold;
-            color: var(--nord8);
-        }
-
-        .center {
-            position: relative;
-            margin-left: 600px;
-        }
-
-        #particles-js {
-            top: 0;
-            background-size: cover;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-        }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/custom.css') }}">
     <div>
         <nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar_style">
             <div class="container">
@@ -146,6 +44,7 @@
     <div id="particles-js">
     </div>
     {% block content %} {% endblock %}
+    <script src="{{ url_for('static',filename='styles/custom.js') }}"></script>
     <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1561436720/particles.js">
     </script>
     <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1561436735/app.js">

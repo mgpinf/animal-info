@@ -1,0 +1,158 @@
+:root {
+    --nord0: #2E3440;
+    --nord1: #3B4252;
+    --nord2: #434C5E;
+    --nord3: #4C566A;
+    --nord4: #D8DEE9;
+    --nord5: #E5E9F0;
+    --nord6: #ECEFF4;
+    --nord7: #8FBCBB;
+    --nord8: #88C0D0;
+    --nord9: #81A1C1;
+    --nord10: #5E81AC;
+    --nord11: #BF616A;
+    --nord12: #D08770;
+    --nord13: #EBCB8B;
+    --nord14: #A3BE8C;
+    --nord15: #B48EAD;
+    --merc0: #212529;
+    --merc1: #009688;
+    --merc3: #C0C0C0;
+}
+
+body {
+    background-color: var(--nord0);
+    background-image: url('https://img.jagranjosh.com/imported/images/E/Articles/Wildlife-threat.webp');
+    background-blend-mode: multiply;
+    opacity: 72%;
+    background-size: cover;
+    background-repeat: repeat;
+    text-align: center;
+}
+
+.navbar_style {
+    background: linear-gradient(var(--merc1), var(--nord2) 50%, var(--nord1) 70%, var(--nord0));
+}
+
+h1 {
+    text-align: center;
+    color: var(--nord14);
+    background: -webkit-linear-gradient(var(--nord14), var(--nord7));
+    background-clip: inherit;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+h4 {
+    font-weight: bold;
+    color: var(--nord6);
+}
+
+h5 {
+    color: var(--nord6);
+}
+
+h6 {
+    font-weight: bold;
+    color: var(--nord7);
+}
+
+hr {
+    color: var(--nord0);
+}
+
+button {
+    background-color: var(--nord8);
+    transition: all 0.2s ease-in-out;
+    margin: 20em;
+    box-shadow: 0 0 30px #009688;
+}
+
+#heading {
+    background: linear-gradient(var(--nord0), var(--merc0) 60%, var(--nord0))
+}
+
+hr {
+    color: var(--nord0);
+}
+
+small {
+    font-weight: bold;
+    color: var(--nord9);
+}
+
+label {
+    font-weight: bold;
+    color: var(--nord8);
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#particles-js {
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+form {
+    display: inline-block;
+}
+
+.table_style {
+    border: 2px solid var(--nord0);
+}
+
+.tr_style {
+    border: 2px solid var(--nord0);
+    border-color: var(--nord0);
+    background-color: var(--nord9);
+}
+
+.td_style_1 {
+    border: 3px solid var(--nord0);
+    border-color: var(--nord0);
+    background-color: var(--nord8);
+    font-weight: 500;
+    height: 40px;
+    text-align: center;
+}
+
+.td_style_2 {
+    border: 3px solid var(--nord0);
+    border-color: var(--nord0);
+    background-color: var(--nord14);
+    color: var(--nord1);
+    height: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.td_style_3 {
+    border: 2px solid var(--nord0);
+    border-color: var(--nord0);
+    background-color: var(--nord0);
+    text-align: center;
+    height: 40px
+}
+
+.span_style_3 {
+    border: none;
+    text-decoration: none;
+    color: var(--nord1);
+    border-color: var(--nord1);
+    background-color: var(--nord7);
+}
+
+.b_class {
+    color: var(--merc3);
+}
+
+hr {
+    color: var(--nord0);
+}

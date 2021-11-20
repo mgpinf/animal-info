@@ -172,7 +172,7 @@ VALUES
     ('109', 'Big hornbill', 'Bird'),
     ('110', 'Parrot', 'Bird'),
     ('111', 'Asiatic Lion', 'Lion'),
-    ('112', 'Kathiawari', 'Horse'),
+    ('112', 'Western Lowland Gorilla', 'Gorilla'),
     ('113', 'Bengal tiger', 'Tiger'),
     ('114', 'Rhinoceros unicornis', 'Rhinoceros'),
     ('115', 'Masai giraffe', 'Giraffe'),
@@ -271,60 +271,70 @@ INSERT INTO
 VALUES
     (
         '151',
+        'Dog food',
         'https://www.amazon.com/Pedigree-Complete-Nutrition-Roasted-Vegetable/dp/B00JN9IJAW/ref=sr_1_1?dchild=1&keywords=pedigree&qid=1634386662&sr=8-1&th=1',
         'Amazon',
         '101'
     ),
     (
         '152',
+        'Grooming Brush',
         'https://www.amazon.com/Pet-Grooming-Effectively-Professional-Deshedding/dp/B01M5DS0Z7/ref=sr_1_6?dchild=1&keywords=dog+products&qid=1634386840&sr=8-6',
         'Amazon',
         '102'
     ),
     (
         '153',
+        'Salmon Oil',
         'https://www.amazon.com/PetHonesty-Wild-Alaskan-Salmon-Dogs/dp/B092BJ1MTQ/ref=sr_1_9?dchild=1&keywords=dog+care+products&qid=1634386898&sr=8-9',
         'Amazon',
         '103'
     ),
     (
         '154',
+        'Conditioner',
         'https://www.amazon.com/Burts-Bees-All-Natural-Conditioner-Dogs/dp/B00CVTRO48/ref=sr_1_10?dchild=1&keywords=dog+care+products&qid=1634386955&sr=8-10',
         'Amazon',
         '104'
     ),
     (
         '155',
+        'Toothpaste',
         'https://www.amazon.com/Vets-Best-Toothbrush-Toothpaste-Formulated/dp/B06XKJNFXX/ref=sr_1_7?dchild=1&keywords=dog+care+products&qid=1634387001&sr=8-7',
         'Amazon',
         '105'
     ),
     (
         '156',
+        'Bed',
         'https://www.flipkart.com/rk-products-dc40-m-pet-bed/p/itmc65e6bf86b01a?pid=PEBFKZZZG6QZEZVQ&lid=LSTPEBFKZZZG6QZEZVQVBTIDA&marketplace=FLIPKART&q=products+for+cats&store=p3t&srno=s_1_5&otracker=search&otracker1=search&fm=SEARCH&iid=a4252aea-5398-483c-a648-1fb0098a2990.PEBFKZZZG6QZEZVQ.SEARCH&ppt=browse&ppn=browse&ssid=17mmhbbtqp7gwutc1635167161494&qH=34fde2e966941d0e',
         'Flipkart',
         '106'
     ),
     (
         '157',
+        'Soft Mesh',
         'https://www.flipkart.com/jainsons-pet-products-adjustable-soft-mesh-comfort-padded-vest-dog-harness-small-dogs-toy-breeds-puppies-cats-medium-blue-cat-buckle/p/itm6fca1da8867b0?pid=PCLG6Y2ESHMNFXX7&lid=LSTPCLG6Y2ESHMNFXX7MDDVUM&marketplace=FLIPKART&q=products+for+cats&store=p3t&srno=s_1_9&otracker=search&otracker1=search&fm=SEARCH&iid=a4252aea-5398-483c-a648-1fb0098a2990.PCLG6Y2ESHMNFXX7.SEARCH&ppt=sp&ppn=sp&ssid=17mmhbbtqp7gwutc1635167161494&qH=34fde2e966941d0e',
         'Flipkart',
         '107'
     ),
     (
         '158',
+        'Feeding Bowl',
         'https://www.flipkart.com/jp-pet-products-stainless-steel-food-water-feeding-bowl-dogs-puppies-round/p/itm94d966011ccfd?pid=PBLG4JDXHCTJTHPH&lid=LSTPBLG4JDXHCTJTHPHOF4LP2&marketplace=FLIPKART&q=products+for+cats&store=p3t&srno=s_1_22&otracker=search&otracker1=search&fm=SEARCH&iid=a4252aea-5398-483c-a648-1fb0098a2990.PBLG4JDXHCTJTHPH.SEARCH&ppt=browse&ppn=browse&ssid=17mmhbbtqp7gwutc1635167161494&qH=34fde2e966941d0e',
         'Flipkart',
         '108'
     ),
     (
         '159',
+        'Wooden Nest',
         'https://www.flipkart.com/jainsons-pet-products-bird-house-breeding-box-wooden-nest-small-birds-sparrow-budgies-finches-2-pcs/p/itm4bda2a4989989?pid=BRHGFEVBAQRAXPYH&lid=LSTBRHGFEVBAQRAXPYHZR0L3B&marketplace=FLIPKART&q=products+for+birds&store=search.flipkart.com&srno=s_1_5&otracker=search&otracker1=search&fm=SEARCH&iid=24cb2e89-bf34-415d-b40b-30f9e3495395.BRHGFEVBAQRAXPYH.SEARCH&ppt=sp&ppn=sp&ssid=55nmaanhcojp52bk1635167374557&qH=33f0661e27d83697',
         'Flipkart',
         '120'
     ),
     (
         '160',
+        'Bird Food',
         'https://www.flipkart.com/jainsons-pet-products-royal-kangni-seed-bird-food-budgie-parakeet-parrots-cockatiel-silver-finches-munias-0-5-kg-dry-new-born-young-adult/p/itm68350c0a2325c?pid=PFDFC9VZKCCG9WSZ&lid=LSTPFDFC9VZKCCG9WSZ3T0I8E&marketplace=FLIPKART&q=products+for+birds&store=search.flipkart.com&srno=s_1_16&otracker=search&otracker1=search&fm=SEARCH&iid=24cb2e89-bf34-415d-b40b-30f9e3495395.PFDFC9VZKCCG9WSZ.SEARCH&ppt=sp&ppn=sp&ssid=55nmaanhcojp52bk1635167374557&qH=33f0661e27d83697',
         'Flipkart',
         '110'
@@ -503,6 +513,9 @@ INSERT INTO
 VALUES
     (
         '401',
+        null,
+        '201',
+        null,
         True,
         '101',
         True,
@@ -517,6 +530,9 @@ VALUES
     ),
     (
         '402',
+        null,
+        null,
+        '11',
         True,
         '104',
         False,
@@ -531,6 +547,9 @@ VALUES
     ),
     (
         '403',
+        null,
+        null,
+        '21',
         True,
         '103',
         False,
@@ -545,6 +564,9 @@ VALUES
     ),
     (
         '404',
+        null,
+        '204',
+        null,
         True,
         '106',
         True,
@@ -559,6 +581,9 @@ VALUES
     ),
     (
         '405',
+        '301',
+        null,
+        null,
         False,
         '119',
         False,
@@ -573,6 +598,9 @@ VALUES
     ),
     (
         '406',
+        null,
+        null,
+        '31',
         True,
         '108',
         FALSE,
@@ -587,6 +615,9 @@ VALUES
     ),
     (
         '407',
+        '302',
+        null,
+        null,
         FALSE,
         '113',
         FALSE,
@@ -601,6 +632,9 @@ VALUES
     ),
     (
         '408',
+        '303',
+        null,
+        null,
         False,
         '112',
         FALSE,
@@ -611,10 +645,13 @@ VALUES
         425.00,
         18,
         NULL,
-        'https://i.pinimg.com/736x/65/18/0e/65180ea0440f90b93466d83ff42d9887--old-paintings-marwari-horses.jpg'
+        'https://images.pexels.com/photos/7190227/pexels-photo-7190227.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260'
     ),
     (
         '409',
+        '306',
+        null,
+        null,
         False,
         '109',
         False,
@@ -629,6 +666,9 @@ VALUES
     ),
     (
         '410',
+        '307',
+        null,
+        null,
         FALSE,
         '114',
         FALSE,
@@ -643,6 +683,9 @@ VALUES
     ),
     (
         '411',
+        '307',
+        null,
+        null,
         FALSE,
         '118',
         FALSE,
@@ -657,6 +700,9 @@ VALUES
     ),
     (
         '412',
+        '304',
+        null,
+        null,
         FALSE,
         '117',
         FALSE,
@@ -671,6 +717,9 @@ VALUES
     ),
     (
         '413',
+        '305',
+        null,
+        null,
         FALSE,
         '116',
         FALSE,
@@ -685,6 +734,9 @@ VALUES
     ),
     (
         '414',
+        '304',
+        null,
+        null,
         FALSE,
         '115',
         FALSE,
@@ -699,6 +751,9 @@ VALUES
     ),
     (
         '415',
+        '305',
+        null,
+        null,
         FALSE,
         '119',
         FALSE,
@@ -713,6 +768,9 @@ VALUES
     ),
     (
         '416',
+        null,
+        '202',
+        null,
         True,
         '110',
         True,
@@ -727,6 +785,9 @@ VALUES
     ),
     (
         '417',
+        null,
+        '203',
+        null,
         True,
         '108',
         True,
@@ -736,11 +797,14 @@ VALUES
         'M',
         5.44,
         8,
-        30000.00,
+        30000,
         'https://www.thesprucepets.com/thmb/di7SqIMxHLiTG0lWq6kLq013M5w=/1377x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/close-up-portrait-of-cat-901825714-5c8bf4a9c9e77c00010e967d.jpg'
     ),
     (
         '418',
+        null,
+        '204',
+        null,
         True,
         '108',
         True,
@@ -750,11 +814,14 @@ VALUES
         'F',
         8.2,
         13,
-        35000.00,
+        35000,
         'https://www.thesprucepets.com/thmb/J6O2euA7yCeyHz8BcPwZR1EO4Pk=/1080x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/41866908_1857951234295526_8668996549299071367_n-5c740bc3c9e77c000151bab2.jpg'
     ),
     (
         '419',
+        null,
+        '205',
+        null,
         True,
         '107',
         True,
@@ -764,11 +831,14 @@ VALUES
         'M',
         4.53,
         12,
-        18000.00,
+        18000,
         'https://vetstreet.brightspotcdn.com/dims4/default/303f54d/2147483647/thumbnail/645x380/quality/90/?url=https%3A%2F%2Fvetstreet-brightspot.s3.amazonaws.com%2F29%2Fb6%2Ff4a864144d09974dfe5bf0513e20%2FPersian-AP-V8HE5B-645sm3614.jpg'
     ),
     (
         '420',
+        null,
+        '206',
+        null,
         True,
         '107',
         True,
@@ -778,11 +848,14 @@ VALUES
         'F',
         7.50,
         14,
-        15000.00,
+        15000,
         'https://cattime.com/assets/uploads/2011/12/file_2676_persian-460x290-460x290.jpg'
     ),
     (
         '421',
+        null,
+        '207',
+        null,
         True,
         '120',
         True,
@@ -792,11 +865,14 @@ VALUES
         'M',
         0.12,
         11,
-        1000.00,
+        1000,
         'https://res.cloudinary.com/brooks-braithwaite/image/upload/v1554131096/exoticdirect_how_to_feed_your_cockatiel.png'
     ),
     (
         '422',
+        null,
+        '208',
+        null,
         True,
         '102',
         True,
@@ -806,11 +882,14 @@ VALUES
         'M',
         36.00,
         11,
-        12000.00,
+        12000,
         'https://c.pxhere.com/photos/66/9c/dog_labrador_head_close_pet_bright_coat-920619.jpg!d'
     ),
     (
         '423',
+        null,
+        '209',
+        null,
         True,
         '104',
         True,
@@ -820,11 +899,14 @@ VALUES
         'F',
         25.00,
         9,
-        18000.00,
+        18000,
         'https://media.istockphoto.com/photos/boxer-dog-in-animal-shelter-hoping-to-be-adopted-picture-id1006968918?s=612x612'
     ),
     (
         '424',
+        null,
+        null,
+        '11',
         True,
         '102',
         False,
@@ -834,11 +916,14 @@ VALUES
         'F',
         32.00,
         12,
-        15000.00,
+        15000,
         'https://thumbs.dreamstime.com/z/black-labrador-head-23003475.jpg'
     ),
     (
         '425',
+        null,
+        null,
+        '21',
         True,
         '103',
         False,
@@ -848,11 +933,14 @@ VALUES
         'M',
         30.00,
         9,
-        13000.00,
+        13000,
         'https://media1.popsugar-assets.com/files/thumbor/uiZBUSl5UNskxObP13Yd-3X30QY/fit-in/1024x1024/filters:format_auto-!!-:strip_icc-!!-/2019/12/18/763/n/46902966/4759e2855dfa5f7c857892.88399573_/i/what-kind-health-problems-do-golden-retrievers-have.jpg'
     ),
     (
         '426',
+        null,
+        null,
+        '21',
         True,
         '105',
         False,
@@ -862,11 +950,14 @@ VALUES
         'M',
         35.00,
         10,
-        14000.00,
+        14000,
         'https://regisregal.com/wp-content/uploads/2020/06/german-shepherd-rescue-dog-197x300.jpg'
     ),
     (
         '427',
+        null,
+        null,
+        '31',
         True,
         '102',
         False,
@@ -876,11 +967,14 @@ VALUES
         'F',
         24.00,
         9,
-        9000.00,
+        9000,
         'https://krupaanimalsbangalore.files.wordpress.com/2012/11/lab12.jpg?w=768'
     ),
     (
         '428',
+        null,
+        null,
+        '41',
         True,
         '107',
         False,
@@ -890,11 +984,14 @@ VALUES
         'F',
         3.00,
         4,
-        14000.00,
+        14000.0,
         'https://faqcats.com/wp-content/uploads/persian-cat-expensive-300x222.jpg.webp'
     ),
     (
         '429',
+        null,
+        null,
+        '51',
         True,
         '108',
         False,
@@ -904,11 +1001,14 @@ VALUES
         'M',
         5.00,
         4,
-        16000.00,
+        16000,
         'https://thumbs.dreamstime.com/b/siamese-cat-8-months-old-sitting-14847638.jpg'
     ),
     (
         '430',
+        null,
+        null,
+        '61',
         True,
         '106',
         False,
@@ -918,11 +1018,14 @@ VALUES
         'M',
         6.00,
         5,
-        22000.00,
+        22000,
         'https://www.newportharborvets.com/sites/default/files/styles/large/public/maine-coon-cat-breed-info.jpg?itok=3AJSveFR'
     ),
     (
         '431',
+        null,
+        null,
+        '91',
         False,
         '101',
         True,
@@ -932,11 +1035,14 @@ VALUES
         'M',
         46.00,
         7,
-        15000.00,
+        15000,
         'https://a-love-of-rottweilers.com/wp-content/uploads/2021/07/Breed-Std-@canilalfgar-768x963.jpg'
     ),
     (
         '432',
+        null,
+        '202',
+        null,
         False,
         '102',
         True,
@@ -946,11 +1052,14 @@ VALUES
         'F',
         48.00,
         12,
-        12000.00,
+        12000,
         'https://c.pxhere.com/photos/66/9c/dog_labrador_head_close_pet_bright_coat-920619.jpg!d'
     ),
     (
         '433',
+        null,
+        '203',
+        null,
         False,
         '103',
         False,
@@ -960,11 +1069,14 @@ VALUES
         'M',
         27.00,
         4,
-        20000.00,
+        20000,
         'https://zamroo.s3.ap-south-1.amazonaws.com/images/product-images/pets/pets-for-adoption/medium/20210716075836-79308.jpg'
     ),
     (
         '434',
+        null,
+        null,
+        '21',
         False,
         '104',
         False,
@@ -974,11 +1086,14 @@ VALUES
         'F',
         45.00,
         7,
-        22000.00,
+        22000,
         'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg'
     ),
     (
         '435',
+        null,
+        null,
+        '31',
         False,
         '105',
         False,
@@ -988,11 +1103,14 @@ VALUES
         'M',
         33.00,
         9,
-        25000.00,
+        25000,
         'https://regisregal.com/wp-content/uploads/2020/06/german-shepherd-rescue-dog-197x300.jpg'
     ),
     (
         '436',
+        null,
+        '208',
+        null,
         False,
         '106',
         True,
@@ -1002,11 +1120,14 @@ VALUES
         'F',
         24.00,
         5,
-        30000.00,
+        30000,
         'https://english.mathrubhumi.com/polopoly_fs/1.5281277.1608009135!/image/image.jpg_gen/derivatives/landscape_894_577/image.jpg'
     ),
     (
         '437',
+        null,
+        '204',
+        null,
         False,
         '107',
         True,
@@ -1016,11 +1137,14 @@ VALUES
         'M',
         6.00,
         5,
-        33000.00,
+        33000,
         'https://faqcats.com/wp-content/uploads/persian-cat-expensive-300x222.jpg.webp'
     ),
     (
         '438',
+        null,
+        '209',
+        null,
         False,
         '108',
         False,
@@ -1030,11 +1154,14 @@ VALUES
         'F',
         7.00,
         6,
-        35000.00,
+        35000,
         'https://thumbs.dreamstime.com/b/siamese-cat-8-months-old-sitting-14847638.jpg'
     ),
     (
         '439',
+        null,
+        null,
+        '61',
         False,
         '110',
         True,
@@ -1044,11 +1171,14 @@ VALUES
         'M',
         1.80,
         13,
-        5000.00,
+        5000,
         'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/133940571/900'
     ),
     (
         '440',
+        null,
+        null,
+        '71',
         False,
         '120',
         True,
@@ -1058,7 +1188,7 @@ VALUES
         'F',
         0.20,
         9,
-        6000.00,
+        6000,
         'https://res.cloudinary.com/brooks-braithwaite/image/upload/v1554131096/exoticdirect_how_to_feed_your_cockatiel.png'
     );
 
@@ -1144,10 +1274,10 @@ VALUES
     ),
     (
         '408',
-        'HORSE',
+        'gorilla',
         '303',
         NULL,
-        10000.00,
+        20000.00,
         0.0,
         '879113853568',
         NULL,
@@ -1394,116 +1524,6 @@ VALUES
         '534614315483',
         NULL,
         '61'
-    ),
-    (
-        '431',
-        'dog',
-        NULL,
-        NULL,
-        0.0,
-        3000.00,
-        NULL,
-        '201',
-        NULL
-    ),
-    (
-        '432',
-        'dog',
-        NULL,
-        NULL,
-        0.0,
-        5000.00,
-        NULL,
-        '202',
-        NULL
-    ),
-    (
-        '433',
-        'dog',
-        NULL,
-        NULL,
-        0.0,
-        7000.00,
-        NULL,
-        NULL,
-        '11'
-    ),
-    (
-        '434',
-        'dog',
-        NULL,
-        NULL,
-        0.0,
-        9000.00,
-        NULL,
-        NULL,
-        '21'
-    ),
-    (
-        '435',
-        'dog',
-        NULL,
-        NULL,
-        0.0,
-        8000.00,
-        NULL,
-        NULL,
-        '31'
-    ),
-    (
-        '436',
-        'cat',
-        NULL,
-        NULL,
-        0.0,
-        10000.00,
-        NULL,
-        '203',
-        NULL
-    ),
-    (
-        '437',
-        'cat',
-        NULL,
-        NULL,
-        0.0,
-        13000.00,
-        NULL,
-        '204',
-        NULL
-    ),
-    (
-        '438',
-        'cat',
-        NULL,
-        NULL,
-        0.0,
-        18000.00,
-        NULL,
-        NULL,
-        '41'
-    ),
-    (
-        '439',
-        'bird',
-        NULL,
-        NULL,
-        0.0,
-        4000.00,
-        NULL,
-        '205',
-        NULL
-    ),
-    (
-        '440',
-        'bird',
-        NULL,
-        NULL,
-        0.0,
-        2000.00,
-        NULL,
-        '206',
-        NULL
     );
 
 INSERT INTO
@@ -1579,7 +1599,7 @@ VALUES
         NULL
     ),
     (
-        'Laminitis',
+        'Scabies Skin disease',
         '408',
         8,
         NULL,
@@ -1698,11 +1718,11 @@ Sensitive, matures slowly',
     ),
     (
         '703',
-        'Feed your Maine Coon nutritious food.
-Give your Main Coon a supply of clean water.
-Prepare a large litter box or two.
-Give your Maine Coon exercise.
-Play with your Maine Coon.
+        'Feed your Maine Coon nutritious food. 
+Give your Main Coon a supply of clean water. 
+Prepare a large litter box or two. 
+Give your Maine Coon exercise. 
+Play with your Maine Coon. 
 Keep your Maine Coon indoors and maybe occasionally outdoors.',
         'Maine Coon'
     ),
@@ -1877,11 +1897,7 @@ VALUES
         '123123'
     ),
     ('302', 'Arignar_Anna_Zoological_Park', '123343'),
-    (
-        '303',
-        'Indira_Gandhi_Zoological_Park',
-        '9223123'
-    ),
+    ('303', 'Indira_Gandhi_Zoological_Park', '9223123'),
     ('304', 'Nandankanan_Zoological_Park', 'ABC3123'),
     ('305', 'Sakkarbaug_Zoological_Park', 'QW3123'),
     (

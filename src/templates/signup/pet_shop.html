@@ -2,14 +2,6 @@
 {% block title %}num-info{% endblock %}
 {% block content %}
 
-<style>
-    .center {
-        margin-left: 200px;
-        margin-right: 200px;
-        position: relative;
-    }
-</style>
-
 <div id="heading">
     <h1>PET SHOP SIGNUP</h1>
 </div>
@@ -19,13 +11,13 @@
         <div class="container col-12">
             <div>
                 <hr>
-                <div class="center">
+                <div>
                     <label id="input-group-1__BV_label_" for="input-1" class="d-block">
                         <h4>SIGN UP DETAILS:</h4>
                     </label>
                     <form action="" method="post">
                         <div id="input-group-1" role="group" class="form-group">
-                            <div class="card" style="width: 18rem; background-color: var(--nord0);">
+                            <div class="card" style="background-color: var(--nord0);">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>No. of pets</label>
@@ -78,24 +70,7 @@
                                 " onmouseover="change_color(this)" onmouseout="restore_color(this)">
                                 Sign Up
                             </button>
-                            <script>
-                                let nord0 = "#2E3440";
-                                let nord1 = "#3B4252";
-                                let nord8 = "#88C0D0";
-                                let merc0 = "#212529";
-                                let merc1 = "#009688";
-                                let nord7 = "#8FBCBB";
-                                function change_color(current_element) {
-                                    current_element.style["background-color"] = nord1
-                                    current_element.style["border-color"] = nord1
-                                    current_element.style["color"] = nord7
-                                }
-                                function restore_color(current_element) {
-                                    current_element.style["background-color"] = nord7
-                                    current_element.style["border-color"] = nord7
-                                    current_element.style["color"] = nord1
-                                }
-                            </script>
+                            <script src="{{ url_for('static',filename='styles/custom.js') }}"></script>
                         </div>
                     </form>
                 </div>
