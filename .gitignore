@@ -137,3 +137,5 @@ workspace.code-workspace
 # testing files
 commands.sql
 triggers.sql
+login.txt
+signup.txt
