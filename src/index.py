@@ -586,9 +586,8 @@ def doctor_login_query_answers_select():
 @app.route("/login/doctor/query-answer/insert", methods=["POST", "GET"])
 def doctor_login_query_answers_insert():
     if request.method == "POST":
-        id = request.form.get("id")
-        query_answer = request.form.get("queryAnswer")
         query_id = request.form.get("queryId")
+        query_answer = request.form.get("queryAnswer")
         query_answered_by = session["certificate_no"]
 
         connection = psycopg2.connect(
@@ -596,6 +595,14 @@ def doctor_login_query_answers_insert():
         )
 
         cur = connection.cursor()
+
+        select_statement = "SELECT queries_query_answer_id from QUERIES_QUERY_ANSWER"
+        cur.execute(select_statement)
+        results = cur.fetchall()
+        prev_id = int(results[-1][0])
+        cur_id = str(prev_id + 1)
+
+        id = cur_id
 
         insert_statement = f"INSERT INTO QUERIES_QUERY_ANSWER VALUES ('{id}', '{query_answer}', '{query_id}', '{query_answered_by}')"
         cur.execute(insert_statement)
@@ -605,7 +612,7 @@ def doctor_login_query_answers_insert():
         connection.close()
 
         flash("Successfully inserted")
-        return redirect(url_for("home"))
+        return redirect(url_for("doctor_login_query_answers_operation"))
     else:
         return render_template(
             "login/doctor/query_answer/insert.html",
@@ -615,9 +622,9 @@ def doctor_login_query_answers_insert():
 @app.route("/login/doctor/query-answer/update", methods=["POST", "GET"])
 def doctor_login_query_answers_update():
     if request.method == "POST":
+        query_id = request.form.get("queryId")
         id = request.form.get("id")
         query_answer = request.form.get("queryAnswer")
-        query_id = request.form.get("queryId")
         query_answered_by = session["certificate_no"]
 
         connection = psycopg2.connect(
@@ -646,7 +653,7 @@ def doctor_login_query_answers_update():
         connection.close()
 
         flash("Successfully updated")
-        return redirect(url_for("home"))
+        return redirect(url_for("doctor_login_query_answers_operation"))
     else:
         return render_template(
             "login/doctor/query_answer/update.html",
