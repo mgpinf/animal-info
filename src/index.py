@@ -5,10 +5,16 @@ import smtplib, ssl
 
 port = 465  # for smtps SSL encryption
 smtp_server = "smtp.gmail.com"
-sender_encrypted_email = "l`mhrgfnvc16?fl`hk-bnl"
-sender_encrypted_password = "l`mhrg/8?odrT"
+
+# set your email
+sender_encrypted_email = ""
+
+# set your password
+
+sender_encrypted_password = ""
 message = """Subject: Hi there
 Thank you for signing up. Excited to serve you"""
+
 user_name = "postgres"
 user_password = "2020"
 
