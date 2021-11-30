@@ -10,8 +10,8 @@ smtp_server = "smtp.gmail.com"
 sender_encrypted_email = ""
 
 # set your password
-
 sender_encrypted_password = ""
+
 message = """Subject: Hi there
 Thank you for signing up. Excited to serve you"""
 
